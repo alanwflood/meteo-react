@@ -1,0 +1,10 @@
+{
+  "name": "Meteo",
+  "version": "1",
+  "description": "An app that shows the 5 day forecast for a location",
+  "main": "index.js",
+  "repository": "git@bitbucket.org:alanwflood/meteo.git",
+  "author": "Alan Flood",
+  "license": "MIT",
+  "private": true
+}
