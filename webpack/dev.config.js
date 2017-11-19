@@ -11,6 +11,7 @@ module.exports = merge(baseConfig, {
     historyApiFallback: true,
     open: true,
     overlay: {
+      warnings: false,
       errors: true
     },
     contentBase: path.join(__dirname, '../src')
