@@ -2,14 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 // Styles
 import "./assets/stylesheets/application.styl";
-// import MainLayout from "./layouts/main";
-// import Title from "./components/logo";
+import MainLayout from "./layouts/main";
 import Weather from "./components/weather";
 
 const App = () => (
-  <div className="night-sky-bg">
+  <MainLayout>
     <Weather />
-  </div>
+  </MainLayout>
 );
 
 export default () => {

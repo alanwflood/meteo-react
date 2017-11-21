@@ -1,0 +1,56 @@
+.weather-container
+  display: grid
+
+.weather-card
+  border-radius: 5px
+  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50)
+  height: 100%
+
+  .light &
+    color: gray
+    text-shadow: 1px 1px rgba(white, .2)
+
+  .dark &
+    color: white
+    text-shadow: 1px 1px rgba(gray, .2)
+
+
+  .header
+    align-items: center
+    display: flex
+    font-size: 2rem
+    height: 4rem
+    justify-content: center
+    text-align: center
+
+    small
+      display: block
+      font-size: 50%
+
+  .content
+    padding: 2em 1em
+    text-align: center;
+
+  .timeline
+    display: flex
+    flex-flow: row
+    align-items: center
+    justify-content: center
+    text-align: center
+    padding: 1rem
+
+    .weather-entry
+      padding: 1rem 1rem
+
+      .icon
+        display: block;
+        width: 4.5rem;
+
+        svg
+          width: 100%;
+
+      .time
+        font-size: .75rem
+
+      .description
+        display: block

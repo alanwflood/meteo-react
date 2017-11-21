@@ -1,5 +1,7 @@
 import React from "react";
 import moment from "moment";
+import WeatherDetails from "./weather-details";
+import Icon from "./weather-icon";
 
 const WeatherCard = props => {
   const cardDate = () => {
@@ -27,15 +29,23 @@ const WeatherCard = props => {
 
   return (
     <div className="weather-card">
-      <div className="header">{cardDate()}</div>
-      <div className="content">
+      <section className="header">{cardDate()}</section>
+      <section className="content">
+        <WeatherDetails data={props.weatherData} />
+      </section>
+      <section className="timeline">
         {props.weatherData.map(data => (
-          <div key={data.dt}>
-            {moment.unix(data.dt).format("h:mma")}:{" "}
-            {data.weather[0].description}
+          <div key={data.dt} className="weather-entry">
+            <div className="time">{moment.unix(data.dt).format("h:mma")}</div>
+            <div
+              className="description"
+              aria-label={data.weather[0].description}
+            >
+              <Icon icon={data.weather[0].icon} />
+            </div>
           </div>
         ))}
-      </div>
+      </section>
     </div>
   );
 };

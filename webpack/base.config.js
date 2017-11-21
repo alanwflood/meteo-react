@@ -1,10 +1,10 @@
-const webpack = require('webpack');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const webpack = require("webpack");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   entry: {
-    app: [path.join(__dirname, '../src/index.js')]
+    app: [path.join(__dirname, "../src/index.js")]
   },
 
   module: {
@@ -12,21 +12,23 @@ module.exports = {
       {
         test: /\.jsx?/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ["babel-loader"]
       },
+      {
+        test: /\.json/,
+        use: "json-loader"
+      }
     ]
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin([
-      'NODE_ENV',
-    ]),
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new HTMLWebpackPlugin({
-      template: path.join(__dirname, '../src/index.html')
-    }),
+      template: path.join(__dirname, "../src/index.html")
+    })
   ],
 
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [".js", ".jsx"]
   }
 };
