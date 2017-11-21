@@ -1,6 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import moment from "moment";
+import WeatherCard from "./weather-card";
+import "./weather-container.styl";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -36,11 +38,10 @@ class Weather extends React.Component {
     if (Object.keys(weatherData).length) {
       return Object.keys(weatherData).map(date => (
         <div key={date} style={{ paddingBottom: "2rem" }}>
-          {weatherData[date].map(data => (
-            <div key={data.dt}>
-              {data.dt_txt}: {data.weather[0].description}
-            </div>
-          ))}
+          <WeatherCard
+            weatherData={weatherData[date]}
+            date={weatherData[date][0].dt}
+          />
         </div>
       ));
     }
@@ -48,7 +49,7 @@ class Weather extends React.Component {
   };
 
   render() {
-    return this.weatherCards();
+    return <div className="weather-container">{this.weatherCards()}</div>;
   }
 }
 

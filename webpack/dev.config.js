@@ -6,7 +6,7 @@ module.exports = merge(baseConfig, {
   devtool: 'eval-source-map',
 
   devServer: {
-    port: '8001',
+    port: '7777',
     inline: true,
     historyApiFallback: true,
     open: true,
