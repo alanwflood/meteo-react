@@ -15,16 +15,19 @@ class Weather extends React.Component {
   }
 
   componentDidMount() {
-    const forecastURL =
-      "https://api.openweathermap.org/data/2.5/forecast?q=Dublin,IE&units=metric&appid=fedc4be60e5e3367b61c1c3846c8c557";
-    this.fetch5DayWeather(forecastURL);
-    const weatherURL =
-      "https://api.openweathermap.org/data/2.5/weather?q=Dublin,IE&units=metric&appid=fedc4be60e5e3367b61c1c3846c8c557";
+    const url = "https://api.openweathermap.org/data/2.5/";
+    const place = "Dublin,IE";
+    const apiKey = "fedc4be60e5e3367b61c1c3846c8c557";
+    // prettier-ignore
+    const forecastURL = `${url}forecast?q=${place}&units=metric&appid=${apiKey}`;
+    setTimeout(() => this.fetch5DayWeather(forecastURL), 1000);
+    // prettier-ignore
+    const weatherURL = `${url}weather?q=${place}&units=metric&appid=${apiKey}`;
     this.fetchCurrentWeather(weatherURL);
   }
 
   setTheme = () => {
-    const currentTime = moment.unix();
+    const currentTime = this.state.currentWeather.dt;
     const { sunset, sunrise } = this.state.currentWeather;
     let theme;
     if (
@@ -49,7 +52,7 @@ class Weather extends React.Component {
         />
       ));
     }
-    return <div>Loading</div>;
+    return <div className="loader main-loader">Loading</div>;
   };
 
   fetchCurrentWeather = url => {
