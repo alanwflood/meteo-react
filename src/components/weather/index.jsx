@@ -52,7 +52,10 @@ class Weather extends React.Component {
         />
       ));
     }
-    return <div className="loader main-loader">Loading</div>;
+    return setInterval(
+      () => <div className="loader main-loader">Loading</div>,
+      2000
+    );
   };
 
   fetchCurrentWeather = url => {
