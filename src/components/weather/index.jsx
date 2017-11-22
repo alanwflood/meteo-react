@@ -12,6 +12,10 @@ class Weather extends React.Component {
       currentWeather: {},
       weatherData: {}
     };
+    this.today = moment().format("DD MMM");
+    this.tomorrow = moment()
+      .add(1, "days")
+      .format("DD MMM");
   }
 
   componentDidMount() {
@@ -41,21 +45,34 @@ class Weather extends React.Component {
     this.setState({ theme });
   };
 
+  // Today's weather is not always 6 entries long,
+  // so use tomorrows weather to fill in the gaps
+  todaysWeatherData = weatherData => {
+    const weatherToday = weatherData[this.today];
+    if (weatherToday.length < 6) {
+      const additionalForecast = weatherData[this.tomorrow].slice(
+        0,
+        weatherToday.length
+      );
+      weatherToday.concat(additionalForecast);
+    }
+  };
+
   weatherCards = () => {
     const { weatherData } = this.state;
     if (Object.keys(weatherData).length) {
       return Object.keys(weatherData).map(date => (
         <WeatherCard
           key={date}
-          weatherData={weatherData[date]}
+          today={this.today === date}
+          weatherData={
+            date === this.today ? this.todaysWeatherData() : weatherData[date]
+          }
           date={weatherData[date][0].dt}
         />
       ));
     }
-    return setInterval(
-      () => <div className="loader main-loader">Loading</div>,
-      2000
-    );
+    return <div className="loader main-loader">Loading</div>;
   };
 
   fetchCurrentWeather = url => {
