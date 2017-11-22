@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path= require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const baseConfig = require('./base.config.js');
@@ -35,15 +35,17 @@ module.exports = merge(baseConfig, {
 
   plugins: [
     // Extract imported CSS into own file
-    new ExtractTextPlugin('[name].bundle.[chunkhash].css'),
+    new ExtractTextPlugin('[name].bundle.[contenthash].css'),
     // Minify JS
     new UglifyJsPlugin({
       sourceMap: false,
-      compress: true
+      uglifyOptions: {
+        compress: true
+      }
     }),
     // Minify CSS
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
-  ],
+  ]
 });
