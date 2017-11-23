@@ -8,8 +8,9 @@ class WeatherCard extends React.Component {
   componentDidMount() {
     tippy(".description", {
       placement: "bottom",
-      animation: "scale",
-      arrow: true
+      animation: "fade",
+      arrow: true,
+      offset: "0, 5"
     });
   }
 
@@ -39,21 +40,28 @@ class WeatherCard extends React.Component {
   render() {
     const { weatherData } = this.props;
     return (
-      <div className="weather-card">
-        <section className="header">{this.cardDate()}</section>
-        <section className="content">
-          <WeatherDetails data={weatherData} />
-        </section>
-        <section className="timeline">
-          {weatherData.map(data => (
-            <div key={data.dt} className="weather-entry">
-              <div className="time">{moment.unix(data.dt).format("h:mma")}</div>
-              <div className="description" title={data.weather[0].description}>
-                <Icon icon={data.weather[0].icon} />
+      <div className="weather-card-container">
+        <div className="weather-card">
+          <section className="header">{this.cardDate()}</section>
+          <section className="content">
+            <WeatherDetails data={weatherData} />
+          </section>
+          <section className="timeline">
+            {weatherData.map(data => (
+              <div key={data.dt} className="weather-entry">
+                <div className="time">
+                  {moment.unix(data.dt).format("h:mma")}
+                </div>
+                <div
+                  className="description"
+                  title={data.weather[0].description}
+                >
+                  <Icon icon={data.weather[0].icon} />
+                </div>
               </div>
-            </div>
-          ))}
-        </section>
+            ))}
+          </section>
+        </div>
       </div>
     );
   }

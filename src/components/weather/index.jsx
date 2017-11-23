@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import moment from "moment";
 import WeatherCard from "./weather-card";
+import Flickity from "react-flickity-component/src/index";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -48,8 +49,8 @@ class Weather extends React.Component {
   // Today's weather is not always 6 entries long,
   // so use tomorrows weather to fill in the gaps
   todaysWeatherData = weatherData => {
-    const weatherToday = weatherData[this.today];
-    if (weatherToday.length < 6) {
+    const weatherToday = weatherData[this.today].weather;
+    if (weatherToday.length < 5) {
       const additionalForecast = weatherData[this.tomorrow].slice(
         0,
         weatherToday.length
@@ -61,16 +62,26 @@ class Weather extends React.Component {
   weatherCards = () => {
     const { weatherData } = this.state;
     if (Object.keys(weatherData).length) {
-      return Object.keys(weatherData).map(date => (
-        <WeatherCard
-          key={date}
-          today={this.today === date}
-          weatherData={
-            date === this.today ? this.todaysWeatherData() : weatherData[date]
-          }
-          date={weatherData[date][0].dt}
-        />
-      ));
+      return (
+        <Flickity
+          options={{
+            resize: true
+          }}
+        >
+          {Object.keys(weatherData).map(date => (
+            <WeatherCard
+              key={date}
+              today={this.today === date}
+              weatherData={
+                date === this.today
+                  ? this.todaysWeatherData(weatherData)
+                  : weatherData[date]
+              }
+              date={weatherData[date][0].dt}
+            />
+          ))}
+        </Flickity>
+      );
     }
     return <div className="loader main-loader">Loading</div>;
   };

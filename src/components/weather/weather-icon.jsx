@@ -1,7 +1,7 @@
 import React from "react";
 import icons from "./icons.json";
 
-export default props => {
+const weatherIcon = props => {
   const setIcon = () => {
     const { icon } = props;
     const iconValue = icon.replace(/(d|n)/g, "");
@@ -21,3 +21,4 @@ export default props => {
     </div>
   );
 };
+export default weatherIcon;
