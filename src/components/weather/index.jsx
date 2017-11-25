@@ -1,8 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import moment from "moment";
-import WeatherCard from "./weather-card";
 import Flickity from "react-flickity-component/src/index";
+import WeatherCard from "./weather-card";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Weather extends React.Component {
     const apiKey = "fedc4be60e5e3367b61c1c3846c8c557";
     // prettier-ignore
     const forecastURL = `${url}forecast?q=${place}&units=metric&appid=${apiKey}`;
-    setTimeout(() => this.fetch5DayWeather(forecastURL), 1000);
+    this.fetch5DayWeather(forecastURL);
     // prettier-ignore
     const weatherURL = `${url}weather?q=${place}&units=metric&appid=${apiKey}`;
     this.fetchCurrentWeather(weatherURL);
@@ -33,7 +33,7 @@ class Weather extends React.Component {
 
   setTheme = () => {
     const currentTime = this.state.currentWeather.dt;
-    const { sunset, sunrise } = this.state.currentWeather;
+    const { sunset, sunrise } = this.state.currentWeather.sys;
     let theme;
     if (
       currentTime > parseInt(sunrise, 10) &&
@@ -49,14 +49,15 @@ class Weather extends React.Component {
   // Today's weather is not always 6 entries long,
   // so use tomorrows weather to fill in the gaps
   todaysWeatherData = weatherData => {
-    const weatherToday = weatherData[this.today].weather;
-    if (weatherToday.length < 5) {
+    const weatherToday = weatherData[this.today];
+    if (weatherToday.length < 6) {
       const additionalForecast = weatherData[this.tomorrow].slice(
         0,
-        weatherToday.length
+        8 - weatherToday.length
       );
-      weatherToday.concat(additionalForecast);
+      return weatherToday.concat(additionalForecast);
     }
+    return weatherToday;
   };
 
   weatherCards = () => {

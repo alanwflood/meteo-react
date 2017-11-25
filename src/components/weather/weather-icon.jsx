@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import icons from "./icons.json";
 
 const weatherIcon = props => {
@@ -12,13 +13,19 @@ const weatherIcon = props => {
   };
 
   return (
-    <div className="icon">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g fill="currentColor">
-          <path d={icons[setIcon()]} />
-        </g>
-      </svg>
+    <div className="icon weather-icon">
+      {props.icon && (
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g fill="currentColor">
+            <path d={icons[setIcon()]} />
+          </g>
+        </svg>
+      )}
     </div>
   );
 };
 export default weatherIcon;
+
+weatherIcon.propTypes = {
+  icon: PropTypes.string.isRequired
+};
