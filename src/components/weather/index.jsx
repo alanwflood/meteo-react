@@ -33,7 +33,8 @@ class Weather extends React.Component {
 
   setTheme = () => {
     const currentTime = this.state.currentWeather.dt;
-    const { sunset, sunrise } = this.state.currentWeather;
+    const { sunset, sunrise } = this.state.currentWeather.sys;
+    console.log(sunset, sunrise, currentTime);
     let theme;
     if (
       currentTime > parseInt(sunrise, 10) &&
