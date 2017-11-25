@@ -1,8 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import moment from "moment";
-import WeatherCard from "./weather-card";
 import Flickity from "react-flickity-component/src/index";
+import WeatherCard from "./weather-card";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -34,7 +34,6 @@ class Weather extends React.Component {
   setTheme = () => {
     const currentTime = this.state.currentWeather.dt;
     const { sunset, sunrise } = this.state.currentWeather.sys;
-    console.log(sunset, sunrise, currentTime);
     let theme;
     if (
       currentTime > parseInt(sunrise, 10) &&
