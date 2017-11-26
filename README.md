@@ -3,13 +3,14 @@
 
 # Meteo
 
-Meteo is a weather built in Node, Webpack, ES6 and React.
+Meteo is a simple, minimalist weather application built in Node, Webpack, ES6, Stylus and React.
 The App provides a 5 day weather forecast using [Openweathermaps 5 day weather API](https://openweathermap.org/forecast5) and Google places to parse Latitude and Longitude for the places search.
+
+## Requirements
 
 It requires Yarn to manage dependencies and Node v8.9.1 (The Current LTS as of writing) to run the production server.
 
-Lastly for the api fetch requests it requires a google places API key and an openweathermaps API key,
-these are currently hardcoded but can be switched out as required.
+The api fetch requests requires a google places API key and an openweathermaps API key, these are currently hardcoded into the app but can be switched out as required.
 
 ## Installation
 
@@ -19,7 +20,7 @@ these are currently hardcoded but can be switched out as required.
 
 * run ```yarn install``` to install node dependencies
 
-* run ```yarn dev``` to spin up a development server
+* run ```yarn dev``` to spin up a development server which should also open the app in your favourite browser
 
 * run ```yarn start``` to build the project and start a production server
 
@@ -31,16 +32,14 @@ these are currently hardcoded but can be switched out as required.
 
 * Better styling for the logo component
 
-* Testing for components - While the app is very centered around an api, tests for data manipulation need to be done.
+* Testing for components - While the app is centered around an api, tests for data manipulation and component snapshots need to be done.
 
-* Integrate with the Geolocation API to get the current position of the user on initial load.
+* Integrate with the HTML5 Geolocation API to get the current position of the user on initial load.
 
-* Save last searched location to local storage so on refreshes the last searched location appears.
-
-* PWA and Storage workers. The app is definitely small enough in scope to be moved to Preact or something more light weight and leverage storage workers and caching to become a PWA app.
+* PWA and Storage workers. The app is definitely small enough in scope to be moved to Preact or something more lightweight and leverage storage workers and caching to become a PWA app.
 
 * Move API calls to the node server in production so API keys don't need to be hard coded.
 
 ## License
 
-MIT, Open Source, go nuts, just credit the author if you plan to use it or expand it.
+MIT, Open Source, just credit the author if you plan to expand on the project.
