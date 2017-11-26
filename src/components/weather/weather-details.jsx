@@ -102,7 +102,12 @@ export default class WeatherDetails extends React.Component {
     const { weatherDetails, weatherTable } = this.state;
     return (
       <div className="weather-details">
-        {weatherDetails.length && <Icon icon={weatherDetails[1]} />}
+        {weatherDetails.length && (
+          <div>
+            <Icon icon={weatherDetails[1]} />
+            <h3>{_.upperFirst(weatherDetails[0])}</h3>
+          </div>
+        )}
         <table>
           <tbody>
             {weatherTable.map(data => (

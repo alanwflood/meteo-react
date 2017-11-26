@@ -1,8 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import moment from "moment";
-import Flickity from "react-flickity-component/src/index";
 import WeatherCard from "./weather-card";
+import ErrorBoundary from "./error-boundary";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -63,26 +63,20 @@ class Weather extends React.Component {
   weatherCards = () => {
     const { weatherData } = this.state;
     if (Object.keys(weatherData).length) {
-      return (
-        <Flickity
-          options={{
-            resize: true
-          }}
-        >
-          {Object.keys(weatherData).map(date => (
-            <WeatherCard
-              key={date}
-              today={this.today === date}
-              weatherData={
-                date === this.today
-                  ? this.todaysWeatherData(weatherData)
-                  : weatherData[date]
-              }
-              date={weatherData[date][0].dt}
-            />
-          ))}
-        </Flickity>
-      );
+      return Object.keys(weatherData).map(date => (
+        <ErrorBoundary>
+          <WeatherCard
+            key={date}
+            today={this.today === date}
+            weatherData={
+              date === this.today
+                ? this.todaysWeatherData(weatherData)
+                : weatherData[date]
+            }
+            date={weatherData[date][0].dt}
+          />
+        </ErrorBoundary>
+      ));
     }
     return <div className="loader main-loader">Loading</div>;
   };
