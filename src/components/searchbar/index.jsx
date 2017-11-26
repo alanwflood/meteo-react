@@ -10,9 +10,19 @@ import Logo from "../logo";
 export default class SearchBar extends React.Component {
   constructor(props) {
     super(props);
+    let location = {};
+    let address = "";
+    if (localStorage.getItem("lat")) {
+      location = {
+        lat: localStorage.getItem("lat"),
+        lng: localStorage.getItem("lng")
+      };
+      address = localStorage.getItem("address");
+    }
+
     this.state = {
-      location: {},
-      address: ""
+      location,
+      address
     };
   }
 
@@ -23,7 +33,12 @@ export default class SearchBar extends React.Component {
     this.setState({ location: {} });
     geocodeByAddress(this.state.address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => this.setState({ location: latLng }))
+      .then(latLng => {
+        this.setState({ location: latLng });
+        localStorage.setItem("lat", JSON.stringify(latLng.lat));
+        localStorage.setItem("lng", JSON.stringify(latLng.lng));
+        localStorage.setItem("address", JSON.stringify(this.state.address));
+      })
       .catch(error => console.error("Error", error));
   };
 
@@ -48,7 +63,8 @@ export default class SearchBar extends React.Component {
             googleLogo={false}
             classNames={{
               root: "search-bar",
-              input: "search-input"
+              input: "search-input",
+              autocompleteContainer: "search-dropdown"
             }}
             onEnterKeyDown={() => this.form.dispatchEvent(new Event("submit"))}
           />

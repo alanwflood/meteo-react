@@ -132,7 +132,6 @@ class Weather extends React.Component {
   render() {
     return (
       <div className={`weather-container ${this.state.theme}`}>
-        <div className="background" />
         {this.weatherCards()}
       </div>
     );
