@@ -2,12 +2,30 @@
   width: 100%
   background-color: transparent
   border: 0
+  cursor: pointer
+  transition: all .3s ease-in-out;
 
   .light &
     outline-color: gray
+    color: gray
+    text-shadow: 1px 1px rgba(white, .2)
+
+    &:hover {
+      color: white
+      text-shadow: 1px 1px rgba(white, .2)
+      background-color: gray
+    }
 
   .dark &
     outline-color: white
+    color: white
+    text-shadow: 1px 1px rgba(white, .2)
+
+    &:hover {
+      color: gray
+      text-shadow: 1px 1px rgba(gray, .2)
+      background-color: white
+    }
 
   h2
     margin-left: 1rem
@@ -30,14 +48,6 @@
   .icon
     max-width: 5rem
     margin: 0
-
-  .light &
-    color: gray
-    text-shadow: 1px 1px rgba(white, .2)
-
-  .dark &
-    color: white
-    text-shadow: 1px 1px rgba(gray, .2)
 
   &.open
     h2

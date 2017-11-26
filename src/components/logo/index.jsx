@@ -1,5 +1,4 @@
 import React from "react";
-import "./logo.styl";
 
 export default () => (
   <div className="logo">
@@ -7,5 +6,9 @@ export default () => (
       <div>Meteo</div>
       <small>Weather at a Glance</small>
     </h1>
+
+    <div className="tagline">
+      Search for location above to get your 5 day weather forecast!
+    </div>
   </div>
 );

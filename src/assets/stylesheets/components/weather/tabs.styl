@@ -12,14 +12,21 @@
     border-bottom: 2px solid transparent
     padding: 1rem 0
     width: 25%
+    cursor: pointer
 
     @media screen and (max-width: 600px)
       width: 50%
 
+.light .weather-tabs
+  li:hover
+    border-color: rgba(gray, 0.4)
 
+  .active
+    border-color: gray
 
-.light .weather-tabs .active
-  border-color: dark
+.dark .weather-tabs
+  li:hover
+    border-color: rgba(white, 0.4)
 
-.dark .weather-tabs .active
-  border-color: white
+ .active
+    border-color: white

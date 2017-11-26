@@ -11,7 +11,9 @@ class Weather extends React.Component {
     this.state = {
       theme: "light",
       currentWeather: {},
-      weatherData: {}
+      weatherData: {},
+      lat: this.props.lat,
+      lng: this.props.lng
     };
     this.today = moment().format("DD MMM");
     this.tomorrow = moment()
@@ -20,15 +22,15 @@ class Weather extends React.Component {
   }
 
   componentDidMount() {
-    const url = "https://api.openweathermap.org/data/2.5/";
-    const place = "Dublin,IE";
-    const apiKey = "fedc4be60e5e3367b61c1c3846c8c557";
-    // prettier-ignore
-    const forecastURL = `${url}forecast?q=${place}&units=metric&appid=${apiKey}`;
-    this.fetch5DayWeather(forecastURL);
-    // prettier-ignore
-    const weatherURL = `${url}weather?q=${place}&units=metric&appid=${apiKey}`;
-    this.fetchCurrentWeather(weatherURL);
+    this.fetchWeather();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      lat: nextProps.lat,
+      lng: nextProps.lng
+    });
+    this.fetchWeather();
   }
 
   setTheme = () => {
@@ -40,10 +42,26 @@ class Weather extends React.Component {
       currentTime < parseInt(sunset, 10)
     ) {
       theme = "light";
+      document.body.classList.add("light");
+      document.body.classList.remove("dark");
     } else {
       theme = "dark";
+      document.body.classList.add("dark");
+      document.body.classList.remove("light");
     }
     this.setState({ theme });
+  };
+
+  fetchWeather = () => {
+    const url = "https://api.openweathermap.org/data/2.5/";
+    const { lat, lng } = this.state;
+    const apiKey = "fedc4be60e5e3367b61c1c3846c8c557";
+    // prettier-ignore
+    const forecastURL = `${url}forecast?lat=${lat}&lon=${lng}&units=metric&appid=${apiKey}`;
+    this.fetch5DayWeather(forecastURL);
+    // prettier-ignore
+    const weatherURL = `${url}weather?lat=${lat}&lon=${lng}&units=metric&appid=${apiKey}`;
+    this.fetchCurrentWeather(weatherURL);
   };
 
   // Today's weather is not always 6 entries long,
