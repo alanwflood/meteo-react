@@ -3,6 +3,7 @@ const path= require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const baseConfig = require('./base.config.js');
 
 module.exports = merge(baseConfig, {
@@ -43,6 +44,7 @@ module.exports = merge(baseConfig, {
         compress: true
       }
     }),
+    new FaviconsWebpackPlugin(path.join(__dirname, "../src/assets/favicon.png")),
     // Minify CSS
     new webpack.LoaderOptionsPlugin({
       minimize: true
