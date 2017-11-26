@@ -61,9 +61,9 @@ class Weather extends React.Component {
   };
 
   weatherCards = () => {
-    const { weatherData } = this.state;
+    const { weatherData, theme } = this.state;
     if (Object.keys(weatherData).length) {
-      return Object.keys(weatherData).map(date => (
+      return Object.keys(weatherData).map((date, index) => (
         <ErrorBoundary key={date}>
           <WeatherCard
             today={this.today === date}
@@ -72,7 +72,9 @@ class Weather extends React.Component {
                 ? this.todaysWeatherData(weatherData)
                 : weatherData[date]
             }
+            theme={theme}
             date={weatherData[date][0].dt}
+            isOpen={index === 0}
           />
         </ErrorBoundary>
       ));

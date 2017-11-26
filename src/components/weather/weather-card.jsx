@@ -1,29 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import moment from "moment";
-import tippy from "tippy.js";
 import { Collapse } from "react-collapse";
-import { convertPropertyToArray, mostFrequent } from "../../utils";
-import WeatherDetails from "./weather-details";
+import convertWeatherData from "./convert-weather-data";
+import Details from "./weather-details";
 import Icon from "./weather-icon";
+import Timeline from "./weather-timeline";
 
 class WeatherCard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isOpened: this.props.isOpen
+      isOpened: this.props.isOpen,
+      // Seperation of concerns
+      detailsData: convertWeatherData(this.props.weatherData),
+      timelineData: this.props.weatherData
     };
-  }
-
-  componentDidMount() {
-    tippy(".description", {
-      placement: "bottom",
-      animation: "fade",
-      arrow: true,
-      offset: "0, 5"
-    });
   }
 
   cardDate = () => {
@@ -49,48 +42,43 @@ class WeatherCard extends React.Component {
     return <span>{date}</span>;
   };
 
-  avgWeatherIcon = () =>
-    mostFrequent(
-      convertPropertyToArray(this.props.weatherData, "weather[0][icon]")
-    );
-
   render() {
-    const { weatherData } = this.props;
+    const { detailsData, timelineData } = this.state;
     const date = moment.unix(this.props.date);
     return (
       <div>
         <button
-          className="weather-button"
+          className={`weather-button ${this.state.isOpened && "open"}`}
           onClick={() => this.setState({ isOpened: !this.state.isOpened })}
         >
-          <Icon icon={this.avgWeatherIcon()} />
-          <h2>
-            {date.format("Do MMM")}
-            <br />
-            <small>{date.format("dddd")}</small>
-          </h2>
+          <div className="button-content">
+            <Icon icon={detailsData.avgWeather.icon} />
+            <h2>
+              {date.format("Do MMM")}
+              <br />
+              <small>{date.format("dddd")}</small>
+            </h2>
+            <div className="details">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Min</td>
+                    <td>{detailsData.temps.min}</td>
+                  </tr>
+                  <tr>
+                    <td>Max</td>
+                    <td>{detailsData.temps.max}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </button>
         <Collapse isOpened={this.state.isOpened}>
           <div className="weather-card">
             <section className="header">{this.cardDate()}</section>
-            <section className="content">
-              <WeatherDetails data={weatherData} />
-            </section>
-            <section className="timeline">
-              {weatherData.map(data => (
-                <div key={data.dt} className="weather-entry">
-                  <div className="time">
-                    {moment.unix(data.dt).format("h:mma")}
-                  </div>
-                  <div
-                    className="description"
-                    title={_.upperFirst(data.weather[0].description)}
-                  >
-                    <Icon icon={data.weather[0].icon} />
-                  </div>
-                </div>
-              ))}
-            </section>
+            <Details weatherData={detailsData} theme={this.props.theme} />
+            <Timeline weatherData={timelineData} />
           </div>
         </Collapse>
       </div>

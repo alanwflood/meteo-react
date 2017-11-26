@@ -1,14 +1,10 @@
 import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Icon from "./weather-icon";
-import {
-  mostFrequent,
-  convertPropertyToArray,
-  calcMin,
-  calcMax,
-  calcAvg
-} from "../../utils";
+import Chart from "./weather-chart";
+import colors from "../../assets/stylesheets/colors.json";
 
 // Average Temperature
 // Min Temperature
@@ -17,99 +13,102 @@ import {
 // Average Humidity
 // Rain Chart x: time it rains y: how much
 
-const degToCompass = num => {
-  const val = Math.floor(num / 22.5 + 0.5);
-  const arr = [
-    "N",
-    "NNE",
-    "NE",
-    "ENE",
-    "E",
-    "ESE",
-    "SE",
-    "SSE",
-    "S",
-    "SSW",
-    "SW",
-    "WSW",
-    "W",
-    "WNW",
-    "NW",
-    "NNW"
-  ];
-  return arr[val % 16];
-};
-
 export default class WeatherDetails extends React.Component {
   constructor(props) {
     super(props);
+    const { weatherData } = this.props;
     this.state = {
-      weatherData: this.props.data,
-      weatherDetails: [],
-      weatherTable: []
+      weatherTable: [
+        ["Min Temperature", weatherData.temps.min],
+        ["Max Temperature", weatherData.temps.max],
+        ["Avg Temperature", weatherData.temps.avg],
+        ["Avg Humidity", weatherData.humidity.avg],
+        ["Avg Windspeed", weatherData.wind.avg],
+        ["Direction", weatherData.wind.direction]
+      ]
     };
   }
 
-  componentDidMount() {
-    const { weatherData } = this.state;
-    const weatherDataArray = property =>
-      convertPropertyToArray(weatherData, property);
-
-    const avgWeather = mostFrequent(
-      weatherDataArray("weather[0]['description']")
-    );
-    const avgWeatherIcon = mostFrequent(weatherDataArray("weather[0]['icon']"));
-    const temps = weatherDataArray("main['temp']");
-    const wind = weatherDataArray("wind['speed']");
-    const direction = weatherDataArray("wind['deg']");
-    const rain = weatherDataArray("wind['deg']");
-
-    this.setState({
-      weatherDetails: [avgWeather, avgWeatherIcon],
-      weatherTable: [
-        ["Min Temperature", `${Math.round(calcMin(temps))}°C`],
-        ["Max Temperature", `${Math.round(calcMax(temps))}°C`],
-        ["Avg Temperature", `${Math.round(calcAvg(temps))}°C`],
-        ["Avg Windspeed", `${calcAvg(wind)}m/s`],
-        ["Direction", degToCompass(calcAvg(direction))]
-      ]
-    });
-  }
-
-  rainData = () => {
-    if (this.state.weatherData.rain !== undefined) {
-    } else {
-      const { weatherData } = this.state;
-      const weatherWithRain = weatherData;
-      this.setState(weatherData);
-    }
-  };
-
   render() {
-    const { weatherDetails, weatherTable } = this.state;
+    const { weatherData } = this.props;
+    const { weatherTable } = this.state;
     return (
-      <div className="weather-details">
-        {weatherDetails.length && (
+      <section className="content">
+        <div className="weather-details">
           <div>
-            <Icon icon={weatherDetails[1]} />
-            <h3>{_.upperFirst(weatherDetails[0])}</h3>
+            <Icon icon={weatherData.avgWeather.icon} />
+            <h3>{_.upperFirst(weatherData.avgWeather.description)}</h3>
           </div>
-        )}
-        <table>
-          <tbody>
-            {weatherTable.map(data => (
-              <tr key={data[0]}>
-                <td>{data[0]}:</td>
-                <td>{data[1]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          <table>
+            <tbody>
+              {weatherTable.map(data => (
+                <tr key={data[0]}>
+                  <td>{data[0]}:</td>
+                  <td>{data[1]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Tabs>
+            <TabList className="weather-tabs">
+              {[
+                "Rainfall",
+                "Temperature",
+                "Windspeed",
+                "Humidity"
+              ].map(data => (
+                <Tab selectedClassName="active" key={data}>
+                  {data}
+                </Tab>
+              ))}
+            </TabList>
+            <TabPanel>
+              <Chart
+                barColor={colors.blue}
+                theme={this.props.theme}
+                unit="mm"
+                xAxes={weatherData.rain.data}
+                yAxes={weatherData.times}
+              />
+            </TabPanel>
+            <TabPanel>
+              <Chart
+                barColor={colors.red}
+                theme={this.props.theme}
+                unit="°C"
+                xAxes={weatherData.temps.data}
+                yAxes={weatherData.times}
+              />
+            </TabPanel>
+            <TabPanel>
+              <Chart
+                barColor={colors.yellow}
+                theme={this.props.theme}
+                unit="m/s"
+                xAxes={weatherData.wind.data}
+                yAxes={weatherData.times}
+              />
+            </TabPanel>
+            <TabPanel>
+              <Chart
+                barColor={colors.purple}
+                theme={this.props.theme}
+                unit="%"
+                xAxes={weatherData.humidity.data}
+                yAxes={weatherData.times}
+              />
+            </TabPanel>
+          </Tabs>
+        </div>
+      </section>
     );
   }
 }
 
 WeatherDetails.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired
+  weatherData: PropTypes.object.isRequired,
+  theme: PropTypes.string
+};
+WeatherDetails.defaultProps = {
+  theme: "light"
 };
