@@ -1,8 +1,10 @@
 import React from "react";
-import moment from "moment";
-import { Collapse } from "react-collapse";
-import tippy from "tippy.js";
+import PropTypes from "prop-types";
 import _ from "lodash";
+import moment from "moment";
+import tippy from "tippy.js";
+import { Collapse } from "react-collapse";
+import { convertPropertyToArray, mostFrequent } from "../../utils";
 import WeatherDetails from "./weather-details";
 import Icon from "./weather-icon";
 
@@ -11,7 +13,7 @@ class WeatherCard extends React.Component {
     super(props);
 
     this.state = {
-      isOpened: false
+      isOpened: this.props.isOpen
     };
   }
 
@@ -47,14 +49,26 @@ class WeatherCard extends React.Component {
     return <span>{date}</span>;
   };
 
+  avgWeatherIcon = () =>
+    mostFrequent(
+      convertPropertyToArray(this.props.weatherData, "weather[0][icon]")
+    );
+
   render() {
     const { weatherData } = this.props;
+    const date = moment.unix(this.props.date);
     return (
       <div>
         <button
+          className="weather-button"
           onClick={() => this.setState({ isOpened: !this.state.isOpened })}
         >
-          Open Me
+          <Icon icon={this.avgWeatherIcon()} />
+          <h2>
+            {date.format("Do MMM")}
+            <br />
+            <small>{date.format("dddd")}</small>
+          </h2>
         </button>
         <Collapse isOpened={this.state.isOpened}>
           <div className="weather-card">
@@ -85,3 +99,14 @@ class WeatherCard extends React.Component {
 }
 
 export default WeatherCard;
+
+WeatherCard.propTypes = {
+  isOpen: PropTypes.bool,
+  date: PropTypes.number.isRequired,
+  weatherData: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+// Specifies the default values for props:
+WeatherCard.defaultProps = {
+  isOpen: false
+};

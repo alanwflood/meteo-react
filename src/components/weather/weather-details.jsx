@@ -1,6 +1,14 @@
 import React from "react";
 import _ from "lodash";
+import PropTypes from "prop-types";
 import Icon from "./weather-icon";
+import {
+  mostFrequent,
+  convertPropertyToArray,
+  calcMin,
+  calcMax,
+  calcAvg
+} from "../../utils";
 
 // Average Temperature
 // Min Temperature
@@ -8,26 +16,6 @@ import Icon from "./weather-icon";
 // Temperature Chart x: time y: temperature
 // Average Humidity
 // Rain Chart x: time it rains y: how much
-
-const calcMin = range => Math.min(...range);
-const calcMax = range => Math.max(...range);
-const calcAvg = range =>
-  (range.reduce((a, b) => a + b) / range.length).toFixed(2);
-
-const mostFrequent = array => {
-  const frequency = {}; // array of frequency.
-  let max = 0; // holds the max frequency.
-  let result; // holds the max frequency element.
-  for (let v = 0; v < array.length; v += 1) {
-    frequency[array[v]] = (frequency[array[v]] || 0) + 1; // increment frequency.
-    if (frequency[array[v]] > max) {
-      // is this frequency > max so far ?
-      max = frequency[array[v]]; // update max.
-      result = array[v]; // update result.
-    }
-  }
-  return result;
-};
 
 const degToCompass = num => {
   const val = Math.floor(num / 22.5 + 0.5);
@@ -63,16 +51,18 @@ export default class WeatherDetails extends React.Component {
   }
 
   componentDidMount() {
+    const { weatherData } = this.state;
+    const weatherDataArray = property =>
+      convertPropertyToArray(weatherData, property);
+
     const avgWeather = mostFrequent(
-      this.convertPropertyToArray("weather[0]['description']")
+      weatherDataArray("weather[0]['description']")
     );
-    const avgWeatherIcon = mostFrequent(
-      this.convertPropertyToArray("weather[0]['icon']")
-    );
-    const temps = this.convertPropertyToArray("main['temp']");
-    const wind = this.convertPropertyToArray("wind['speed']");
-    const direction = this.convertPropertyToArray("wind['deg']");
-    const rain = this.convertPropertyToArray("wind['deg']");
+    const avgWeatherIcon = mostFrequent(weatherDataArray("weather[0]['icon']"));
+    const temps = weatherDataArray("main['temp']");
+    const wind = weatherDataArray("wind['speed']");
+    const direction = weatherDataArray("wind['deg']");
+    const rain = weatherDataArray("wind['deg']");
 
     this.setState({
       weatherDetails: [avgWeather, avgWeatherIcon],
@@ -94,9 +84,6 @@ export default class WeatherDetails extends React.Component {
       this.setState(weatherData);
     }
   };
-
-  convertPropertyToArray = property =>
-    this.state.weatherData.map(data => _.get(data, property));
 
   render() {
     const { weatherDetails, weatherTable } = this.state;
@@ -122,3 +109,7 @@ export default class WeatherDetails extends React.Component {
     );
   }
 }
+
+WeatherDetails.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired
+};
