@@ -24,6 +24,16 @@ The api fetch requests requires a google places API key and an openweathermaps A
 
 * run ```yarn start``` to build the project and start a production server
 
+## Features
+
+* Search for 5 day weather forecast by location
+
+* Theme changes based on sunrise / sunset times of chosen location
+
+* Timelines in 3 hour intervals for each day and graphs showing humidity, rainfall, temperature and windspeed
+
+* Location is stored via local storage and persists on page refresh
+
 ## Todos
 
 * A graph for Snowfall that only appears if there is any.
