@@ -48,7 +48,7 @@ export default class SearchBar extends React.Component {
     const inputProps = {
       value: this.state.address,
       onChange: this.onChange,
-      placeholder: "Enter a location then hit submit!"
+      placeholder: "Enter a location"
     };
     const { address } = this.state;
     return (

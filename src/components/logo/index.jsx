@@ -8,7 +8,7 @@ export default () => (
     </h1>
 
     <div className="tagline">
-      Search for location above to get your 5 day weather forecast!
+      Search for a location above to get your 5 day weather forecast!
     </div>
   </div>
 );
