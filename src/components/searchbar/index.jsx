@@ -3,9 +3,11 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from "react-places-autocomplete";
+import SVGInline from "react-svg-inline";
 import MainLayout from "../../layouts/main";
 import Weather from "../weather";
 import Logo from "../logo";
+import navIcon from "../../assets/arrow.svg";
 
 export default class SearchBar extends React.Component {
   constructor(props) {
@@ -17,7 +19,7 @@ export default class SearchBar extends React.Component {
         lat: localStorage.getItem("lat"),
         lng: localStorage.getItem("lng")
       };
-      address = localStorage.getItem("address");
+      address = JSON.parse(localStorage.getItem("address"));
     }
 
     this.state = {
@@ -69,7 +71,9 @@ export default class SearchBar extends React.Component {
             onEnterKeyDown={() => this.form.dispatchEvent(new Event("submit"))}
           />
 
-          <button type="submit">Submit</button>
+          <button type="submit">
+            <SVGInline svg={navIcon} />
+          </button>
         </form>
         {(!!Object.keys(this.state.location).length && (
           <Weather
