@@ -4,10 +4,9 @@ import PlacesAutocomplete, {
   getLatLng
 } from "react-places-autocomplete";
 import SVGInline from "react-svg-inline";
-import MainLayout from "../../layouts/main";
-import Weather from "../weather";
-import Logo from "../logo";
-import navIcon from "../../assets/arrow.svg";
+import Weather from "../components/weather";
+import Logo from "../components/logo";
+import navIcon from "../assets/arrow.svg";
 
 export default class SearchBar extends React.Component {
   constructor(props) {
@@ -52,7 +51,7 @@ export default class SearchBar extends React.Component {
     };
     const { address } = this.state;
     return (
-      <MainLayout>
+      <div className="main-content">
         <form
           onSubmit={this.handleFormSubmit}
           className="search"
@@ -81,7 +80,7 @@ export default class SearchBar extends React.Component {
             lng={this.state.location.lng}
           />
         )) || <Logo />}
-      </MainLayout>
+      </div>
     );
   }
 }
