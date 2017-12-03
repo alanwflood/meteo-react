@@ -18,6 +18,11 @@ var localStorageMock = (function() {
 })();
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
+// requestAnimationFrame polyfill
+global.requestAnimationFrame = function(callback) {
+  setTimeout(callback, 0);
+};
+
 // Mock Google API
 const google = {
   maps: {
