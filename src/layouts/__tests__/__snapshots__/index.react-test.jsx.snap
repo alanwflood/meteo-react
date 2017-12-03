@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Bar renders and Logo Shows 1`] = `
+<div
+  className="main-content"
+>
+  <form
+    className="search"
+    onSubmit={[Function]}
+  >
+    <div
+      className=" search-bar"
+      id="PlacesAutocomplete__root"
+      style={Object {}}
+    >
+      <input
+        autoComplete="off"
+        className=" search-input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Enter a location"
+        style={Object {}}
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      type="submit"
+    >
+      <span
+        className="SVGInline"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "test-file-stub",
+          }
+        }
+      />
+    </button>
+  </form>
+  <div
+    className="logo"
+  >
+    <h1>
+      <div>
+        Meteo
+      </div>
+      <small>
+        Weather at a Glance
+      </small>
+    </h1>
+    <div
+      className="tagline"
+    >
+      Search for a location above to get your 5 day weather forecast!
+    </div>
+  </div>
+</div>
+`;

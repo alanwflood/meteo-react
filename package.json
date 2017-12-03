@@ -67,5 +67,13 @@
     "jest": "^21.2.1",
     "prettier": "^1.8.2",
     "webpack-dev-server": "^2.9.4"
+  },
+  "jest": {
+    "collectCoverageFrom": [ "src/**/*.{js,jsx}" ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/localStorageMock.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/servicesMock.js",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/fileMock.js"
+    }
   }
 }
