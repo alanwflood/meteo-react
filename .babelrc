@@ -1,21 +1,17 @@
 {
   "presets": [
     [
-      "env", {
+      "@babel/preset-env",
+      {
         "targets": {
           "browsers": ["last 2 versions", "safari >= 7"]
         }
       }
     ],
-    "react"
+    "@babel/preset-react"
   ],
-  "env": {
-    "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    }
-  },
   "plugins": [
-    "transform-object-rest-spread",
-    "transform-class-properties"
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties"
   ]
 }

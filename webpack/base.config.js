@@ -10,29 +10,25 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.(jsx?)$/,
         exclude: /node_modules/,
         use: ["babel-loader"]
       },
       {
-        test: /\.json/,
-        use: "json-loader"
-      },
-      {
         test: /\.(png|jpg|gif)$/,
-        use: 'file-loader'
+        use: "file-loader"
       },
       {
         test: /\.svg$/,
-        use: 'raw-loader'
+        use: "@svgr/webpack"
       }
     ]
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new HTMLWebpackPlugin({
-      template: path.join(__dirname, "../src/index.html")
+      template: path.join(__dirname, "../src/index.html"),
+      favicon: path.join(__dirname, "../src/assets/favicon.ico")
     })
   ],
 

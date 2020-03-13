@@ -1,67 +1,59 @@
 import React from "react";
-import _ from "lodash";
-import moment from "moment";
-import WeatherCard from "./weather-card";
+import WeatherAPI from "../../api/weatherApi";
+import { format, add, getUnixTime, startOfDay } from "date-fns";
+import WeatherCard from "./card";
 import ErrorBoundary from "./error-boundary";
 
 class Weather extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      theme: "light",
-      currentWeather: {},
-      weatherData: {},
-      lat: this.props.lat,
-      lng: this.props.lng
-    };
-    this.today = moment().format("DD MMM");
-    this.tomorrow = moment()
-      .add(1, "days")
-      .format("DD MMM");
+    this.loadTimer = setTimeout(this.enableLoader, 300);
+    const date = startOfDay(new Date());
+    this.today = getUnixTime(date).toString();
+    this.tomorrow = getUnixTime(add(date, { days: 1 })).toString();
+  }
+
+  state = {
+    showLoader: false,
+    theme: "light",
+    currentWeather: {},
+    weatherData: {}
+  };
+
+  enableMessage() {
+    this.setState({ showLoader: true });
+  }
+
+  fetchWeather() {
+    const api = WeatherAPI(this.props.lat, this.props.lng);
+    Promise.all([
+      api.fetchFiveDayWeather(json => {
+        this.setState({ weatherData: json });
+      }),
+      api.fetchCurrentWeather(json => {
+        this.setState({ currentWeather: json });
+        this.setTheme(json);
+      })
+    ]);
   }
 
   componentDidMount() {
     this.fetchWeather();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      lat: nextProps.lat,
-      lng: nextProps.lng
-    });
-    this.fetchWeather();
-  }
-
-  setTheme = () => {
-    const currentTime = this.state.currentWeather.dt;
-    const { sunset, sunrise } = this.state.currentWeather.sys;
-    let theme;
-    if (
-      currentTime > parseInt(sunrise, 10) &&
-      currentTime < parseInt(sunset, 10)
-    ) {
-      theme = "light";
+  setTheme = json => {
+    const currentTime = json.dt;
+    const { sunset, sunrise } = json.sys;
+    if (currentTime > parseInt(sunrise) && currentTime < parseInt(sunset)) {
+      this.setState({ theme: "light" });
       document.body.classList.add("light");
       document.body.classList.remove("dark");
     } else {
-      theme = "dark";
+      this.setState({ theme: "dark" });
       document.body.classList.add("dark");
       document.body.classList.remove("light");
     }
-    this.setState({ theme });
-  };
-
-  fetchWeather = () => {
-    const url = "https://api.openweathermap.org/data/2.5/";
-    const { lat, lng } = this.state;
-    const apiKey = "fedc4be60e5e3367b61c1c3846c8c557";
-    // prettier-ignore
-    const forecastURL = `${url}forecast?lat=${lat}&lon=${lng}&units=metric&appid=${apiKey}`;
-    this.fetch5DayWeather(forecastURL);
-    // prettier-ignore
-    const weatherURL = `${url}weather?lat=${lat}&lon=${lng}&units=metric&appid=${apiKey}`;
-    this.fetchCurrentWeather(weatherURL);
   };
 
   // Today's weather is not always 6 entries long,
@@ -80,11 +72,10 @@ class Weather extends React.Component {
 
   weatherCards = () => {
     const { weatherData, theme } = this.state;
-    if (Object.keys(weatherData).length) {
+    if (Object.keys(weatherData).length > 0) {
       return Object.keys(weatherData).map((date, index) => (
         <ErrorBoundary key={date}>
           <WeatherCard
-            today={this.today === date}
             weatherData={
               date === this.today
                 ? this.todaysWeatherData(weatherData)
@@ -97,37 +88,10 @@ class Weather extends React.Component {
         </ErrorBoundary>
       ));
     }
-    return <div className="loader main-loader">Loading</div>;
+    return this.state.showLoader ? (
+      <div className="loader main-loader">Loading</div>
+    ) : null;
   };
-
-  fetchCurrentWeather = url => {
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          currentWeather: json
-        });
-        this.setTheme();
-      });
-  };
-
-  fetch5DayWeather = url => {
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        const weatherData = this.groupWeatherByDate(json);
-        this.setState({
-          weatherData
-        });
-      });
-  };
-
-  // Format api response to
-  // weather for seperate days
-  groupWeatherByDate = weatherData =>
-    _.groupBy(weatherData.list, listItem =>
-      moment.unix(listItem.dt).format("DD MMM")
-    );
 
   render() {
     return (

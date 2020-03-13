@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
+import { format, fromUnixTime, isToday, isTomorrow } from "date-fns";
 import { Collapse } from "react-collapse";
+
 import convertWeatherData from "./convert-weather-data";
-import Details from "./weather-details";
-import Icon from "./weather-icon";
-import Timeline from "./weather-timeline";
+import Details from "./details";
+import Icon from "./icon";
+import Timeline from "./timeline";
 
 class WeatherCard extends React.Component {
   constructor(props) {
@@ -20,21 +21,20 @@ class WeatherCard extends React.Component {
   }
 
   cardDate = () => {
-    const format = dateToFormat => dateToFormat.format("Do MMMM");
-    const date = format(moment.unix(this.props.date));
-    const today = moment();
-
-    if (date === format(today)) {
+    const date = format(fromUnixTime(this.props.date), "do MMMM");
+    if (isToday(fromUnixTime(this.props.date))) {
       return (
         <span>
-          Today<br />
+          Today
+          <br />
           <small>{date}</small>
         </span>
       );
-    } else if (date === format(moment(today).add(1, "days"))) {
+    } else if (isTomorrow(fromUnixTime(this.props.date))) {
       return (
         <span>
-          Tomorrow<br />
+          Tomorrow
+          <br />
           <small>{date}</small>
         </span>
       );
@@ -44,19 +44,19 @@ class WeatherCard extends React.Component {
 
   render() {
     const { detailsData, timelineData } = this.state;
-    const date = moment.unix(this.props.date);
+    const date = fromUnixTime(this.props.date);
     return (
       <div>
         <button
-          className={`weather-button ${this.state.isOpened && "open"}`}
+          className={`weather-button${this.state.isOpened ? " open" : ""}`}
           onClick={() => this.setState({ isOpened: !this.state.isOpened })}
         >
           <div className="button-content">
             <Icon icon={detailsData.avgWeather.icon} />
             <h2>
-              {date.format("Do MMM")}
+              {format(date, "do MMMM")}
               <br />
-              <small>{date.format("dddd")}</small>
+              <small>{format(date, "EEEE")}</small>
             </h2>
             <div className="details">
               <table>

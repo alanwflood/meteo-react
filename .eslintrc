@@ -1,13 +1,12 @@
 {
   "extends": [
-    "airbnb",
+    "standard",
+    "standard-react",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "prettier/standard"
   ],
   "parser": "babel-eslint",
-  "rules": {
-    "func-names": ["error", "never"]
-  },
   "env": {
     "browser": true,
     "node": true

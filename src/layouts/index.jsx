@@ -1,86 +1,42 @@
-import React from "react";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from "react-places-autocomplete";
-import SVGInline from "react-svg-inline";
-import Weather from "../components/weather";
+import React, { Suspense, useState } from "react";
+import SearchBar from "../components/searchbar/searchbar";
 import Logo from "../components/logo";
-import navIcon from "../assets/arrow.svg";
 
-export default class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
-    let location = {};
-    let address = "";
-    if (localStorage.getItem("lat")) {
-      location = {
-        lat: localStorage.getItem("lat"),
-        lng: localStorage.getItem("lng")
-      };
-      address = JSON.parse(localStorage.getItem("address"));
-    }
+// Lazy Load weather component
+const Weather = React.lazy(() => import("../components/weather"));
 
-    this.state = {
-      location,
-      address
-    };
-  }
+// Keys for local storage
+const ADDRESS_KEY = "address";
+const LAT_KEY = "lat";
+const LNG_KEY = "lng";
 
-  onChange = address => this.setState({ address });
+export default function Main() {
+  const [location, setLocation] = useState({
+    lat: localStorage.getItem(LAT_KEY) || null,
+    lng: localStorage.getItem(LNG_KEY) || null
+  });
+  // JSON.parse removes quotation marks from the string
+  const address = JSON.parse(localStorage.getItem(ADDRESS_KEY));
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-    this.setState({ location: {} });
-    geocodeByAddress(this.state.address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => {
-        this.setState({ location: latLng });
-        localStorage.setItem("lat", JSON.stringify(latLng.lat));
-        localStorage.setItem("lng", JSON.stringify(latLng.lng));
-        localStorage.setItem("address", JSON.stringify(this.state.address));
-      })
-      .catch(error => console.error("Error", error));
+  const handleSearchSubmit = (latLng, address) => {
+    const setValue = (key, string) =>
+      localStorage.setItem(key, JSON.stringify(string));
+    setLocation(latLng);
+    setValue(LAT_KEY, latLng.lat);
+    setValue(LNG_KEY, latLng.lng);
+    setValue(ADDRESS_KEY, address);
   };
 
-  render() {
-    const inputProps = {
-      value: this.state.address,
-      onChange: this.onChange,
-      placeholder: "Enter a location"
-    };
-    const { address } = this.state;
-    return (
-      <div className="main-content">
-        <form
-          onSubmit={this.handleFormSubmit}
-          className="search"
-          ref={form => {
-            this.form = form;
-          }}
-        >
-          <PlacesAutocomplete
-            inputProps={inputProps}
-            googleLogo={false}
-            classNames={{
-              root: "search-bar",
-              input: "search-input",
-              autocompleteContainer: "search-dropdown"
-            }}
-            onEnterKeyDown={() => this.form.dispatchEvent(new Event("submit"))}
-          />
-
-          <button type="submit">
-            <SVGInline svg={navIcon} />
-          </button>
-        </form>
-        {(!!Object.keys(this.state.location).length && (
-          <Weather
-            lat={this.state.location.lat}
-            lng={this.state.location.lng}
-          />
-        )) || <Logo />}
-      </div>
-    );
-  }
+  return (
+    <main className="main-content">
+      <SearchBar onSubmit={handleSearchSubmit} address={address} />
+      {location.lat && location.lng ? (
+        <Suspense fallback={null}>
+          <Weather lat={location.lat} lng={location.lng} address={address} />
+        </Suspense>
+      ) : (
+        <Logo />
+      )}
+    </main>
+  );
 }

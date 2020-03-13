@@ -1,5 +1,5 @@
 import _ from "lodash";
-import moment from "moment";
+import { format, fromUnixTime } from "date-fns";
 
 const degToCompass = num => {
   const val = Math.floor(num / 22.5 + 0.5);
@@ -41,6 +41,16 @@ function calcAvg(range) {
   return (range.reduce((a, b) => a + b) / range.length).toFixed(2);
 }
 
+function toDegrees(string) {
+  const degreeSymbol = "°C";
+  return string.toString().concat(degreeSymbol);
+}
+
+function toMeasurement(string) {
+  const measurementSymbol = "mm";
+  return string.toString().concat(measurementSymbol);
+}
+
 // Main Function
 export default function convertWeatherData(weatherData) {
   const weatherDataArray = property =>
@@ -50,18 +60,17 @@ export default function convertWeatherData(weatherData) {
     temps: weatherDataArray("main['temp']"),
     wind: weatherDataArray("wind['speed']"),
     windDirection: weatherDataArray("wind['deg']"),
-    rain: weatherDataArray("rain['3h']").map(
-      val => (val === undefined ? 0 : Number(val.toFixed(2)))
+    rain: weatherDataArray("rain['3h']").map(val =>
+      val === undefined ? 0 : Number(val.toFixed(2))
     ),
-    snow: weatherDataArray("snow['3h']").map(
-      val => (val === undefined ? 0 : Number(val.toFixed(2)))
+    snow: weatherDataArray("snow['3h']").map(val =>
+      val === undefined ? 0 : Number(val.toFixed(2))
     ),
     humidity: weatherDataArray("main['humidity']"),
-    times: weatherDataArray("dt").map(date => moment.unix(date).format("h:mma"))
+    times: weatherDataArray("dt").map(date =>
+      format(fromUnixTime(date), "h:mma")
+    )
   };
-
-  const mapTimesToProperties = property =>
-    _.zipObject(convertedProperties.times, property);
 
   // Return object containing organised data for the day
   const {
@@ -80,26 +89,26 @@ export default function convertWeatherData(weatherData) {
       description: mostFrequent(weatherDataArray("weather[0]['description']"))
     },
     temps: {
-      min: `${Math.round(calcMin(temps))}°C`,
-      max: `${Math.round(calcMax(temps))}°C`,
-      avg: `${Math.round(calcAvg(temps))}°C`,
+      min: toDegrees(Math.round(calcMin(temps))),
+      max: toDegrees(Math.round(calcMax(temps))),
+      avg: toDegrees(Math.round(calcAvg(temps))),
       data: temps.map(val => Math.round(val))
     },
     wind: {
       avg: `${calcAvg(wind)}m/s`,
-      direction: `${degToCompass(calcAvg(windDirection))}`,
+      direction: degToCompass(calcAvg(windDirection)),
       data: wind.map(val => Math.round(val))
     },
     snow: {
-      avg: `${calcAvg(snow)}mm`,
+      avg: toMeasurement(calcAvg(snow)),
       data: snow
     },
     rain: {
-      avg: `${calcAvg(rain)}mm`,
+      avg: toMeasurement(calcAvg(rain)),
       data: rain
     },
     humidity: {
-      avg: `${calcAvg(humidity)}%`,
+      avg: calcAvg(humidity).concat("%"),
       data: humidity
     }
   };
