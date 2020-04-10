@@ -1,7 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import WeatherAPI from "../../api/weatherApi";
-import { format, add, getUnixTime, startOfDay } from "date-fns";
+import { add, getUnixTime, startOfDay } from "date-fns";
 import WeatherCard from "./card";
+import SetTheme from "./setTheme";
 import ErrorBoundary from "./error-boundary";
 
 class Weather extends React.Component {
@@ -21,6 +23,12 @@ class Weather extends React.Component {
     weatherData: {}
   };
 
+  static propTypes = {
+    lat: PropTypes.string.isRequired,
+    lng: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired
+  }
+
   enableMessage() {
     this.setState({ showLoader: true });
   }
@@ -33,7 +41,12 @@ class Weather extends React.Component {
       }),
       api.fetchCurrentWeather(json => {
         this.setState({ currentWeather: json });
-        this.setTheme(json);
+        SetTheme(
+          json.dt,
+          parseInt(json.sys.sunset),
+          parseInt(json.sys.sunrise),
+          theme => this.setState({ theme })
+        );
       })
     ]);
   }
@@ -42,24 +55,16 @@ class Weather extends React.Component {
     this.fetchWeather();
   }
 
-  setTheme = json => {
-    const currentTime = json.dt;
-    const { sunset, sunrise } = json.sys;
-    if (currentTime > parseInt(sunrise) && currentTime < parseInt(sunset)) {
-      this.setState({ theme: "light" });
-      document.body.classList.add("light");
-      document.body.classList.remove("dark");
-    } else {
-      this.setState({ theme: "dark" });
-      document.body.classList.add("dark");
-      document.body.classList.remove("light");
-    }
-  };
+  componentDidUpdate(prevProps) {
+     if (prevProps.address !== this.props.address) {
+      this.fetchWeather();
+     }
+   }
 
-  // Today's weather is not always 6 entries long,
-  // so use tomorrows weather to fill in the gaps
   todaysWeatherData = weatherData => {
     const weatherToday = weatherData[this.today];
+    // Today's weather is not always 6 entries long,
+    // so use tomorrows weather to fill in the gaps
     if (weatherToday.length < 6) {
       const additionalForecast = weatherData[this.tomorrow].slice(
         0,
@@ -71,31 +76,40 @@ class Weather extends React.Component {
   };
 
   weatherCards = () => {
+    const { lat, lng } = this.props;
     const { weatherData, theme } = this.state;
+
     if (Object.keys(weatherData).length > 0) {
-      return Object.keys(weatherData).map((date, index) => (
-        <ErrorBoundary key={date}>
-          <WeatherCard
-            weatherData={
-              date === this.today
-                ? this.todaysWeatherData(weatherData)
-                : weatherData[date]
-            }
-            theme={theme}
-            date={weatherData[date][0].dt}
-            isOpen={index === 0}
-          />
-        </ErrorBoundary>
-      ));
+      return Object.keys(weatherData).map((date, index) => {
+        const key = `${date}-${lat}-${lng}`
+        return(
+          <ErrorBoundary key={key}>
+            <WeatherCard
+              weatherData={
+                date === this.today
+                  ? this.todaysWeatherData(weatherData)
+                  : weatherData[date]
+              }
+              theme={theme}
+              date={weatherData[date][0].dt}
+              isOpen={index === 0}
+            />
+          </ErrorBoundary>
+        )
+      });
     }
+
+    // We delay showing the loader so the user doesn't
+    // percieve that a request is happening.
     return this.state.showLoader ? (
       <div className="loader main-loader">Loading</div>
     ) : null;
   };
 
   render() {
+    const className = `weather-container ${this.state.theme}`
     return (
-      <div className={`weather-container ${this.state.theme}`}>
+      <div className={className}>
         {this.weatherCards()}
       </div>
     );

@@ -7,6 +7,8 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 /**
+ * The autocomplete searchbar at the top of the page.
+ *
  * @component
  * @example
  * const onSubmit = (latLng, address) => {}
@@ -45,20 +47,11 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
             <div className="search-dropdown">
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
-                const className = suggestion.active
-                  ? "suggestion-item--active"
-                  : "suggestion-item";
-                // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                  : { backgroundColor: "#ffffff", cursor: "pointer" };
+                const className = `search-item ${suggestion.active ? " active" : ""}`
                 return (
                   <div
                     key={suggestion.id}
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style
-                    })}
+                    {...getSuggestionItemProps(suggestion, { className })}
                   >
                     <span>{suggestion.description}</span>
                   </div>
@@ -70,6 +63,7 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
       </PlacesAutocomplete>
 
       <button type="submit">
+        <span>Search</span>
         <NavIcon />
       </button>
     </form>

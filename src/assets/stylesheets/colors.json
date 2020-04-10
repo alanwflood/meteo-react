@@ -5,5 +5,14 @@
   "green": "#8ef3c5",
   "yellow": "#ffe28c",
   "red": "#ff8f5e",
-  "purple": "#5d576b"
+  "purple": "#5d576b",
+
+  "lightBg": "#fef6e4",
+  "lightText": "#777",
+  "lightHighlight": "#777",
+  "lightHighlightText": "#f4f3ef",
+
+  "darkBg": "#232946",
+  "darkText": "#fffffe",
+  "darkHightlight": "#eebbc3"
 }

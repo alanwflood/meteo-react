@@ -2,16 +2,39 @@
   display: flex;
   max-width: 800px;
   width: 100%;
-  margin: 0 auto;
+  margin: 1rem auto;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
 
   button
     border-style: solid
     border-color: gray
     z-index: 100
+    transition: border-color .25s ease-out, background-color .25s ease-out;
     background-color: gray
+    cursor: pointer;
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &:hover
+      border-color: red
+      background-color: red
+
+    &:active
+      border-color: white
+      background-color: white
+
+      span
+        color: grey
+
+      svg
+        fill: grey
 
     span
+      color: white;
+      padding-left: .5rem
+      padding-right: .5rem
+      font-size: 1.4rem
       align-items: center;
       display: flex;
       height: 100%
@@ -19,6 +42,7 @@
     svg
       fill: white
       width: 25px;
+      height: 25px;
 
   .search-bar
     width: 100%;
@@ -30,6 +54,7 @@
     box-sizing: border-box
     font-family: "Montserrat"
     display: block;
+    font-size : 2rem
     width: 100%;
     padding: .5rem 0 .5rem 15px;
 
@@ -37,6 +62,14 @@
     position: absolute;
     top: 100%;
     background-color: #fff;
-    border: 1px solid rgb(85, 85, 85);
     width: 100%;
     z-index: 1000;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+
+  .search-item
+    cursor: pointer
+    padding: .5rem
+
+  .search-item.active
+    background-color: red
+    cursor: pointer
