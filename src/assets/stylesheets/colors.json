@@ -1,6 +1,6 @@
 {
   "white": "#f4f3ef",
-  "gray": "#777",
+  "gray": "#666",
   "blue": "#7ce4fe",
   "green": "#8ef3c5",
   "yellow": "#ffe28c",
@@ -8,8 +8,8 @@
   "purple": "#eebbc3",
 
   "lightBg": "#fef6e4",
-  "lightText": "#777",
-  "lightHighlight": "#777",
+  "lightText": "#666",
+  "lightHighlight": "#666",
   "lightHighlightText": "#f4f3ef",
 
   "darkBg": "#232946",
