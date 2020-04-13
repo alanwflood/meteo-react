@@ -1,0 +1,4 @@
+[[headers]]
+  for = "https://maps.googleapis.com/maps/api/*"
+  [headers.values]
+    Cache-Control = "public, s-max-age=31536000"
