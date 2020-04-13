@@ -1,5 +1,5 @@
-const webpack = require("webpack");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 const path = require("path");
 
 module.exports = {
@@ -25,12 +25,13 @@ module.exports = {
   },
 
   plugins: [
+    new Dotenv(),
     new HTMLWebpackPlugin({
       template: path.join(__dirname, "../src/index.html"),
       favicon: path.join(__dirname, "../src/assets/favicon.ico"),
+      googleApiKey: process.env.GOOGLE_API_KEY,
     }),
   ],
-
   resolve: {
     extensions: [".js", ".jsx"],
   },

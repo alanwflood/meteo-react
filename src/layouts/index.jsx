@@ -24,8 +24,8 @@ export default function Main() {
 
   const handleSearchSubmit = ({lat, lng}, address) => {
     const setValue = (key, string) => localStorage.setItem(key, JSON.stringify(string));
-    setLat(lat);
-    setLng(lng);
+    setLat(String(lat));
+    setLng(String(lng));
     setAddress(address);
 
     setValue(LAT_KEY, lat);

@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Meteo</title>
-    <meta name="description" content="Your 5 day weather forecast, in an instant!">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f3ef">
-    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Montserrat:400">
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <meta
+      name="description"
+      content="Your 5 day weather forecast, in an instant!"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fef6e4" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="/manifest.webmanifest" />
   </head>
   <body>
     <!-- [if lte IE 9]>
          <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif] -->
     <div id="app" />
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6tBBFnoQkbescSu16lngK9L2R5OvG-vI&libraries=places"></script>
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=<%= htmlWebpackPlugin.options.googleApiKey %>&libraries=places"
+    ></script>
   </body>
 </html>

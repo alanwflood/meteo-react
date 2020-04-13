@@ -45,7 +45,6 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
               })}
             />
             <div className="search-dropdown">
-              {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = `search-item ${suggestion.active ? " active" : ""}`
                 return (
@@ -57,6 +56,7 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
                   </div>
                 );
               })}
+              {loading && <div className="loading">Loading Places...</div>}
             </div>
           </div>
         )}

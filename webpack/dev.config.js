@@ -1,6 +1,7 @@
 const path = require("path");
 const merge = require("webpack-merge");
 const baseConfig = require("./base.config.js");
+const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = merge(baseConfig, {
   devtool: "eval-source-map",
@@ -27,4 +28,5 @@ module.exports = merge(baseConfig, {
       },
     ],
   },
+  plugins: [new DashboardPlugin()],
 });

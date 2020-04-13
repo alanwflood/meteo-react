@@ -17,16 +17,23 @@
     @media screen and (max-width: 600px)
       width: 50%
 
-.light .weather-tabs
-  li:hover
-    border-color: rgba(gray, 0.4)
+  .weather-tab
+    &.rainfall.active
+      border-color: blue
 
-  .active
-    border-color: gray
+    &.temperature.active
+      border-color: red
+
+    &.windspeed.active
+      border-color: yellow
+
+    &.humidity.active
+      border-color: purple
+
+.light .weather-tabs
+  .weather-tab:not(.active):hover
+      border-color: rgba(gray, 0.4)
 
 .dark .weather-tabs
-  li:hover
-    border-color: rgba(white, 0.4)
-
- .active
-    border-color: white
+  .weather-tab:not(.active):hover
+      border-color: rgba(white, 0.4)

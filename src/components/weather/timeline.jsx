@@ -1,15 +1,30 @@
-import React from "react";
+import React, {useRef} from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import {upperFirst} from "lodash";
 import { format, fromUnixTime } from "date-fns";
-import tippy from "tippy.js";
 import Icon from "./icon";
 
 function WeatherEntry({ date, popupContent, icon }) {
+  // Tippy is a big library for something so simple so dynamically load it.
+  const tippy = import("tippy.js")
+  const tooltipRef = useRef(null)
+
+  // Ref has been attached so setup tooltip library
+  if (tooltipRef !== null) {
+    tippy.then(t => {
+      t.default(tooltipRef.current, {
+        content: upperFirst(popupContent),
+        placement: "bottom",
+        animation: "fade",
+        arrow: true,
+      });
+    })
+  }
+
   return (
     <div className="weather-entry">
       <div className="time">{format(fromUnixTime(date), "h:mma")}</div>
-      <div className="description" title={_.upperFirst(popupContent)}>
+      <div className="description" ref={tooltipRef}>
         <Icon icon={icon} />
       </div>
     </div>
@@ -24,12 +39,6 @@ WeatherEntry.propTypes = {
 
 class WeatherTimeline extends React.Component {
   componentDidMount() {
-    tippy(".description", {
-      placement: "bottom",
-      animation: "fade",
-      arrow: true,
-      offset: "0, 5"
-    });
   }
 
   render() {

@@ -7,12 +7,6 @@ import Chart from "./chart";
 import colors from "../../assets/stylesheets/colors.json";
 
 export default function WeatherDetails({ weatherData, theme }) {
-  // Average Temperature
-  // Min Temperature
-  // Max Temperature
-  // Temperature Chart x: time y: temperature
-  // Average Humidity
-  // Rain Chart x: time it rains y: how much
   const weatherTable = [
     ["Min Temperature", weatherData.temps.min],
     ["Max Temperature", weatherData.temps.max],
@@ -42,7 +36,7 @@ export default function WeatherDetails({ weatherData, theme }) {
         <Tabs>
           <TabList className="weather-tabs">
             {["Rainfall", "Temperature", "Windspeed", "Humidity"].map(data => (
-              <Tab selectedClassName="active" key={data}>
+              <Tab className={`weather-tab ${data.toLowerCase()}`} selectedClassName="active" key={data}>
                 {data}
               </Tab>
             ))}

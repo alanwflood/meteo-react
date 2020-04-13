@@ -3,47 +3,51 @@
   background-color: transparent
   border: 0
   cursor: pointer
-  transition: all .3s ease-in-out;
+  transition: all .5s ease-in-out;
 
   .light &
     outline-color: lightText
     color: lightText
-    text-shadow: 1px 1px rgba(white, .2)
+    text-shadow: 1px 1px rgba(lightText, .2)
 
-    &:hover {
-      color: lightHighlightText
-      text-shadow: 1px 1px rgba(lightHighlightText, .2)
-      background-color: lightHighlight
-    }
+    &:hover
+      color: text-light-highlight
+      text-shadow: 1px 1px rgba(text-light-highlight, .2)
+      background-color: bg-light-highlight
+
+    &:hover .details
+      border-color: text-light-highlight
 
   .dark &
-    outline-color: white
-    color: white
-    text-shadow: 1px 1px rgba(white, .2)
+    outline-color: text-dark
+    color: text-dark
+    text-shadow: 1px 1px rgba(text-dark, .2)
 
-    &:hover {
-      color: gray
-      text-shadow: 1px 1px rgba(gray, .2)
-      background-color: white
-    }
+    &:hover
+      color: text-dark-highlight
+      text-shadow: 1px 1px rgba(text-dark-highlight, .2)
+      background-color: bg-dark-highlight
+
+    &:hover .details
+      border-color: text-dark-highlight
+
 
   h2
     margin-left: 1rem
     transition: transform .3s ease-in-out
 
   .details
-    transition: opacity .3s ease-in-out
+    transition: opacity .3s ease-in-out, border-color .3s ease-out
     opacity: 1
     margin-left: auto
     padding-left: 1rem
     border-left: 2px solid transparent
 
     .light &
-      border-color: gray
+      border-color: text-light
 
     .dark &
-      border-color: white
-
+      border-color: text-dark
 
   .icon
     max-width: 5rem
@@ -65,3 +69,6 @@
   max-width: 500px
   margin: 0 auto
   transition: max-width .3s ease-in-out
+
+.ReactCollapse--collapse
+  transition: height 500ms
