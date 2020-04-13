@@ -29,5 +29,5 @@ module.exports = merge(baseConfig, {
       },
     ],
   },
-  plugins: [new Dotenv({ systemvars: false }), new DashboardPlugin()],
+  plugins: [new DashboardPlugin()],
 });

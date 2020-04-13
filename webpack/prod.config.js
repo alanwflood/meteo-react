@@ -7,7 +7,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const Dotenv = require("dotenv-webpack");
 
 const baseConfig = require("./base.config.js");
 
@@ -35,8 +34,6 @@ module.exports = merge(baseConfig, {
       filename: "[name].[hash].css",
       chunkFilename: "[id].[hash].css",
     }),
-    // Load system vars in production (skips including a .env file)
-    new Dotenv({ systemvars: true }),
     // Clean previous build files
     new CleanWebpackPlugin(),
     new CopyPlugin([
