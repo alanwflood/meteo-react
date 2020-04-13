@@ -33,6 +33,8 @@ module.exports = merge(baseConfig, {
       filename: "[name].[hash].css",
       chunkFilename: "[id].[hash].css",
     }),
+    // Load system vars in production (skips including a .env file)
+    new Dotenv({ systemvars: true }),
     // Clean previous build files
     new CleanWebpackPlugin(),
     new CopyPlugin([

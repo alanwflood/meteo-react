@@ -5,6 +5,7 @@ const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = merge(baseConfig, {
   devtool: "eval-source-map",
+  mode: "development",
   devServer: {
     port: "7777",
     inline: true,
@@ -28,5 +29,5 @@ module.exports = merge(baseConfig, {
       },
     ],
   },
-  plugins: [new DashboardPlugin()],
+  plugins: [new Dotenv({ systemvars: false }), new DashboardPlugin()],
 });
