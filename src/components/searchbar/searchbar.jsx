@@ -62,7 +62,7 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
         )}
       </PlacesAutocomplete>
 
-      <button type="submit">
+      <button type="submit" aria-label="Fetch weather at location">
         <span>Search</span>
         <NavIcon />
       </button>
