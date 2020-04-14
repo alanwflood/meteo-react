@@ -10,7 +10,6 @@ It's currently deployed on Netlify [here](https://distracted-wright-bee694.netli
 
 ## Requirements
 
-- The api requests for the Places Searchbar requires a Google Places API key
 - The api requests for weather forecasts requires an [Openweathermaps Api key](https://openweathermap.org)
 
 Check out the `.env.example` file to see what needs to be added.
@@ -19,14 +18,14 @@ Check out the `.env.example` file to see what needs to be added.
 
 - Clone The Repo
 
-- Copy `.env.example` to `.env` and file in the required keys as per the requirements section.
+- Copy `.env.example` to `.env` and fill in the required keys as per the requirements section.
 
 - Ensure a working version of node is installed.
 
 - run `npm install` to install required dependencies.
 
 - run `npm run dev` to spin up a development server at http://localhost:7777.
--
+
 - run `npm run build` to build the project to the `dist` directory
 
 - run `npm run start` to build the project and start a production server at http://localhost:5000
