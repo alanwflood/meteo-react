@@ -82,12 +82,12 @@
     "src/**/*.js?(x)": [
       "eslint",
       "prettier --write",
-      "git add",
       "jest --bail --findRelatedTests"
     ]
   },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "pre-push": "npm test"
     }
   },
