@@ -73,10 +73,18 @@
     "url-loader": "^4.1.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dashboard": "^3.2.0",
+    "webpack-dashboard": "^4.2.0",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2",
     "workbox-webpack-plugin": "^5.1.2"
+  },
+  "lint-staged": {
+    "src/**/*.js?(x)": [
+      "eslint",
+      "prettier --write",
+      "git add",
+      "jest --bail --findRelatedTests"
+    ]
   },
   "jest": {
     "collectCoverageFrom": [
