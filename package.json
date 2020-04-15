@@ -86,6 +86,11 @@
       "jest --bail --findRelatedTests"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
