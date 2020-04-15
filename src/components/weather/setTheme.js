@@ -14,7 +14,6 @@ import { getUnixTime } from "date-fns";
  */
 export default function setTheme({ sunrise, sunset }, themeSetCallback) {
   const currentTime = getUnixTime(new Date());
-  console.log(currentTime, sunrise, sunset);
   if (currentTime > sunrise && currentTime < sunset) {
     themeSetCallback("light");
     document.body.classList.add("light");
