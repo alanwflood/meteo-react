@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Weather icon component Renders the Clear Day icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Clear Night icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Cloudy Day icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Cloudy Night icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Cloudy icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Day icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Day icon by default 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Hail icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Heavy Rain icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Night icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Rain icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Snow icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;
+
+exports[`Weather icon component Renders the Storm icon 1`] = `
+<div>
+  <div
+    class="icon weather-icon"
+  >
+    <test-file-stub />
+  </div>
+</div>
+`;

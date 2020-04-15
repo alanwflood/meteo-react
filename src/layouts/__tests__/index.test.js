@@ -1,13 +1,15 @@
 import React from "react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
+import App from "../index";
+
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
 import Weather from "../../components/weather";
-import { render, fireEvent, waitFor } from "@testing-library/react";
-import App from "../index";
 
 jest.mock("../../components/weather");
+// Mock out places autocomplete
 jest.mock("react-places-autocomplete", () => {
   const React = require("react"); // eslint-disable-line
   class PlacesAutocomplete extends React.Component {
@@ -26,7 +28,7 @@ jest.mock("react-places-autocomplete", () => {
   }
 
   return {
-    __esModule: true, // this property makes it work
+    __esModule: true,
     default: PlacesAutocomplete,
     geocodeByAddress: jest
       .fn()
@@ -61,6 +63,7 @@ describe("Main Layout", () => {
     const { container } = render(<App />);
     const button = container.querySelector("button");
     fireEvent.click(button);
+    // Wait for promise to complete
     await waitFor(() => {
       expect(window.localStorage.setItem).toHaveBeenCalledTimes(3);
       expect(container).toMatchSnapshot();
