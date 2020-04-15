@@ -1,10 +1,19 @@
 import React, {useRef} from "react";
 import PropTypes from "prop-types";
 import {upperFirst} from "lodash";
-import { format, fromUnixTime } from "date-fns";
+import {format, fromUnixTime} from "date-fns";
 import Icon from "./icon";
 
-function WeatherEntry({ date, popupContent, icon }) {
+/**
+ * @component
+ * @example
+ * <WeatherEntry
+ *   date={1586960512}
+ *   popupContent="Show me in a popup"
+ *   icon="icon-name"
+ * />
+ */
+function WeatherEntry({date, popupContent, icon}) {
   // Tippy is a big library for something so simple so dynamically load it.
   const tippy = import("tippy.js")
   const tooltipRef = useRef(null)
@@ -37,30 +46,28 @@ WeatherEntry.propTypes = {
   icon: PropTypes.string
 };
 
-class WeatherTimeline extends React.Component {
-  componentDidMount() {
-  }
-
-  render() {
-    return (
-      <section>
-        <h3 style={{ textAlign: "center" }}>Timeline</h3>
-        <div className="timeline">
-          {this.props.weatherData.map(data => (
+export default function WeatherTimeline({weatherData}) {
+  return (
+    <section>
+      <h3 style={{textAlign: "center"}}>Timeline</h3>
+      <div className="timeline">
+        {weatherData.times.map((time, index) => {
+          const icon = weatherData.icons[index]
+          const content = weatherData.descriptions[index]
+          return (
             <WeatherEntry
-              key={data.dt}
-              date={data.dt}
-              popupContent={data.weather[0].description}
-              icon={data.weather[0].icon}
+              key={time}
+              date={time}
+              popupContent={content}
+              icon={icon}
             />
-          ))}
-        </div>
-      </section>
-    );
-  }
+          )
+        })}
+      </div>
+    </section>
+  );
 }
-export default WeatherTimeline;
 
 WeatherTimeline.propTypes = {
-  weatherData: PropTypes.arrayOf(PropTypes.object).isRequired
+  weatherData: PropTypes.object.isRequired
 };

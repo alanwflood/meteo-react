@@ -1,25 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import WeatherAPI from "../../api/weatherApi";
-import { add, getUnixTime, startOfDay } from "date-fns";
 import WeatherCard from "./card";
 import SetTheme from "./setTheme";
 import ErrorBoundary from "./error-boundary";
 
 class Weather extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.loadTimer = setTimeout(this.enableLoader, 300);
-    const date = startOfDay(new Date());
-    this.today = getUnixTime(date).toString();
-    this.tomorrow = getUnixTime(add(date, { days: 1 })).toString();
-  }
-
   state = {
     showLoader: false,
     theme: "light",
-    currentWeather: {},
     weatherData: {}
   };
 
@@ -29,26 +18,24 @@ class Weather extends React.Component {
     address: PropTypes.string.isRequired
   }
 
-  enableMessage() {
-    this.setState({ showLoader: true });
+  enableLoader() {
+    setTimeout(this.setState({ showLoader: true }), 3000);
   }
 
   fetchWeather() {
+    this.setState({ loading: true });
+    this.enableLoader();
     const api = WeatherAPI(this.props.lat, this.props.lng);
-    Promise.all([
-      api.fetchFiveDayWeather(json => {
-        this.setState({ weatherData: json });
-      }),
-      api.fetchCurrentWeather(json => {
-        this.setState({ currentWeather: json });
-        SetTheme(
-          json.dt,
-          parseInt(json.sys.sunset),
-          parseInt(json.sys.sunrise),
-          theme => this.setState({ theme })
-        );
-      })
-    ]);
+    api.fetchFiveDayWeather(({ data, times }) => {
+      this.setState({ weatherData: data });
+      SetTheme(
+        times.sunset,
+        times.sunrise,
+        (theme) => this.setState({ theme })
+      );
+    }).then(() => {
+      this.setState({ loading: false });
+    });
   }
 
   componentDidMount() {
@@ -56,54 +43,34 @@ class Weather extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-     if (prevProps.address !== this.props.address) {
-      this.fetchWeather();
-     }
+     if (prevProps.address !== this.props.address) this.fetchWeather();
    }
-
-  todaysWeatherData = weatherData => {
-    const weatherToday = weatherData[this.today];
-    // Today's weather is not always 6 entries long,
-    // so use tomorrows weather to fill in the gaps
-    if (weatherToday.length < 6) {
-      const additionalForecast = weatherData[this.tomorrow].slice(
-        0,
-        8 - weatherToday.length
-      );
-      return weatherToday.concat(additionalForecast);
-    }
-    return weatherToday;
-  };
 
   weatherCards = () => {
     const { lat, lng } = this.props;
-    const { weatherData, theme } = this.state;
+    const { loading, weatherData, theme } = this.state;
+
+    if (loading) {
+      // We delay showing the loader so the user doesn't
+      // percieve that a request is happening.
+      return this.state.showLoader ? (
+        <div className="loader main-loader">Loading</div>
+      ) : null;
+    }
 
     if (Object.keys(weatherData).length > 0) {
-      return Object.keys(weatherData).map((date, index) => {
-        const key = `${date}-${lat}-${lng}`
-        return(
-          <ErrorBoundary key={key}>
+      return Object.entries(weatherData).map(([date, weatherData], index) => (
+          <ErrorBoundary key={`${date}-${lat}-${lng}`}>
             <WeatherCard
-              weatherData={
-                date === this.today
-                  ? this.todaysWeatherData(weatherData)
-                  : weatherData[date]
-              }
+              weatherData={weatherData}
               theme={theme}
-              date={weatherData[date][0].dt}
+              date={date}
               isOpen={index === 0}
             />
           </ErrorBoundary>
         )
-      });
+      );
     }
-
-    // We delay showing the loader so the user doesn't
-    // percieve that a request is happening.
-    return this.state.showLoader ? (
-      <div className="loader main-loader">Loading</div>
-    ) : null;
   };
 
   render() {
