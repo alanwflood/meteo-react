@@ -35,6 +35,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@svgr/webpack": "^5.3.1",
+    "@testing-library/react": "^10.0.2",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -64,6 +65,7 @@
     "prettier": "^2.0.4",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.13.1",
+    "regenerator-runtime": "^0.13.5",
     "style-loader": "^1.1.3",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
@@ -80,7 +82,9 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
-    "setupFilesAfterEnv": ["<rootDir>/tests/servicesMock.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/servicesMock.js"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/fileMock.js",
       "\\.(css|less|scss|styl)$": "<rootDir>/tests/styleMock.js"
