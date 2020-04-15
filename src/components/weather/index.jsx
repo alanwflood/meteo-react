@@ -19,22 +19,21 @@ class Weather extends React.Component {
   }
 
   enableLoader() {
-    setTimeout(this.setState({ showLoader: true }), 3000);
+    setTimeout(this.setState({showLoader: true}), 3000);
   }
 
   fetchWeather() {
-    this.setState({ loading: true });
+    this.setState({loading: true});
     this.enableLoader();
     const api = WeatherAPI(this.props.lat, this.props.lng);
-    api.fetchFiveDayWeather(({ data, times }) => {
-      this.setState({ weatherData: data });
+    api.fetchFiveDayWeather(({data, times}) => {
+      this.setState({weatherData: data});
       SetTheme(
-        times.sunset,
-        times.sunrise,
-        (theme) => this.setState({ theme })
+        { sunrise: times.sunrise, sunset: times.sunset },
+        (theme) => this.setState({theme})
       );
     }).then(() => {
-      this.setState({ loading: false });
+      this.setState({loading: false});
     });
   }
 
@@ -43,12 +42,12 @@ class Weather extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-     if (prevProps.address !== this.props.address) this.fetchWeather();
-   }
+    if (prevProps.address !== this.props.address) this.fetchWeather();
+  }
 
   weatherCards = () => {
-    const { lat, lng } = this.props;
-    const { loading, weatherData, theme } = this.state;
+    const {lat, lng} = this.props;
+    const {loading, weatherData, theme} = this.state;
 
     if (loading) {
       // We delay showing the loader so the user doesn't
@@ -60,15 +59,15 @@ class Weather extends React.Component {
 
     if (Object.keys(weatherData).length > 0) {
       return Object.entries(weatherData).map(([date, weatherData], index) => (
-          <ErrorBoundary key={`${date}-${lat}-${lng}`}>
-            <WeatherCard
-              weatherData={weatherData}
-              theme={theme}
-              date={date}
-              isOpen={index === 0}
-            />
-          </ErrorBoundary>
-        )
+        <ErrorBoundary key={`${date}-${lat}-${lng}`}>
+          <WeatherCard
+            weatherData={weatherData}
+            theme={theme}
+            date={date}
+            isOpen={index === 0}
+          />
+        </ErrorBoundary>
+      )
       );
     }
   };
