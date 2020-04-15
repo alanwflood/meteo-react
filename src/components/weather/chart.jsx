@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 // import Chart from "chart.js";
 import { format, fromUnixTime } from "date-fns";
-import colors from "../../assets/stylesheets/colors.json";
 import { select, scaleBand, scaleLinear, max, axisBottom, axisLeft } from "d3";
 import { zip } from "lodash";
 
@@ -11,7 +10,7 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     value: Number(pair[0]),
     time: Number(pair[1]),
   }));
-  const fontColor = theme === "light" ? colors.gray : colors.white;
+
   const svg = select(element);
   const margin = {
     top: 20,
@@ -44,9 +43,7 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     .selectAll("text")
     .attr("font-size", width * 0.002 + "em");
 
-  const yAxis = g
-    .append("g")
-    .call(axisLeft(y).tickFormat((t) => `${t}${unit}`));
+  g.append("g").call(axisLeft(y).tickFormat((t) => `${t}${unit}`));
 
   // Eventually add additional text to chart
   // yAxis.append("text")
@@ -74,51 +71,21 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     .attr("height", (d) => height - y(d.value));
 }
 
-class WeatherChart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.myRef = React.createRef();
-    this.chart = null;
-  }
+export default function WeatherChart({ barColor, theme, unit, xAxes, yAxes }) {
+  const chartRef = useRef(null);
+  useEffect(() => {
+    SetupChart(chartRef.current, xAxes, yAxes, barColor, theme, unit);
+  });
 
-  setupChart = () => {
-    const { xAxes, yAxes, barColor, theme, unit } = this.props;
-    this.chart = SetupChart(
-      this.myRef.current,
-      xAxes,
-      yAxes,
-      barColor,
-      theme,
-      unit
-    );
-  };
-
-  componentDidMount() {
-    this.setupChart();
-  }
-
-  componentDidUpdate(_prevProps, _prevState) {
-    this.setupChart();
-  }
-
-  componentWillUnmount() {
-    this.chart = null;
-  }
-
-  render() {
-    return (
-      <div className="weather-chart">
-        <svg width="960" height="500" viewBox="0 0 960 500" ref={this.myRef} />
-      </div>
-    );
-  }
+  return (
+    <div className="weather-chart">
+      <svg width="960" height="500" viewBox="0 0 960 500" ref={chartRef} />
+    </div>
+  );
 }
-export default WeatherChart;
 
 WeatherChart.propTypes = {
-  barBorderColor: PropTypes.string,
   barColor: PropTypes.string,
-  label: PropTypes.string,
   theme: PropTypes.string,
   unit: PropTypes.string,
   xAxes: PropTypes.arrayOf(PropTypes.number).isRequired,
