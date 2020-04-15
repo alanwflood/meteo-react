@@ -5,12 +5,12 @@ export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasError: false
+      hasError: false,
     };
   }
   componentDidCatch() {
     this.setState({
-      hasError: true
+      hasError: true,
     });
   }
   render() {
@@ -22,5 +22,5 @@ export default class ErrorBoundary extends React.Component {
 }
 
 ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };

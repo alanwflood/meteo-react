@@ -1,7 +1,7 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import {upperFirst} from "lodash";
-import {format, fromUnixTime} from "date-fns";
+import { upperFirst } from "lodash";
+import { format, fromUnixTime } from "date-fns";
 import Icon from "./icon";
 
 /**
@@ -13,21 +13,21 @@ import Icon from "./icon";
  *   icon="icon-name"
  * />
  */
-function WeatherEntry({date, popupContent, icon}) {
+function WeatherEntry({ date, popupContent, icon }) {
   // Tippy is a big library for something so simple so dynamically load it.
-  const tippy = import("tippy.js")
-  const tooltipRef = useRef(null)
+  const tippy = import("tippy.js");
+  const tooltipRef = useRef(null);
 
   // Ref has been attached so setup tooltip library
   if (tooltipRef !== null) {
-    tippy.then(t => {
+    tippy.then((t) => {
       t.default(tooltipRef.current, {
         content: upperFirst(popupContent),
         placement: "bottom",
         animation: "fade",
         arrow: true,
       });
-    })
+    });
   }
 
   return (
@@ -43,17 +43,17 @@ function WeatherEntry({date, popupContent, icon}) {
 WeatherEntry.propTypes = {
   date: PropTypes.number,
   popupContent: PropTypes.string,
-  icon: PropTypes.string
+  icon: PropTypes.string,
 };
 
-export default function WeatherTimeline({weatherData}) {
+export default function WeatherTimeline({ weatherData }) {
   return (
     <section>
-      <h3 style={{textAlign: "center"}}>Timeline</h3>
+      <h3 style={{ textAlign: "center" }}>Timeline</h3>
       <div className="timeline">
         {weatherData.times.map((time, index) => {
-          const icon = weatherData.icons[index]
-          const content = weatherData.descriptions[index]
+          const icon = weatherData.icons[index];
+          const content = weatherData.descriptions[index];
           return (
             <WeatherEntry
               key={time}
@@ -61,7 +61,7 @@ export default function WeatherTimeline({weatherData}) {
               popupContent={content}
               icon={icon}
             />
-          )
+          );
         })}
       </div>
     </section>
@@ -69,5 +69,5 @@ export default function WeatherTimeline({weatherData}) {
 }
 
 WeatherTimeline.propTypes = {
-  weatherData: PropTypes.object.isRequired
+  weatherData: PropTypes.object.isRequired,
 };

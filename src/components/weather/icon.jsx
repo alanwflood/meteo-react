@@ -15,7 +15,7 @@ import Snow from "./icons/13.svg";
 import Hail from "./icons/50.svg";
 
 function GetIcon(iconName) {
-  switch(iconName) {
+  switch (iconName) {
     case "01d":
       return <ClearDay />;
     case "01n":
@@ -46,13 +46,9 @@ function GetIcon(iconName) {
 }
 
 export default function WeatherIcon(props) {
-  return (
-    <div className="icon weather-icon">
-      {GetIcon(props.icon)}
-    </div>
-  );
-};
+  return <div className="icon weather-icon">{GetIcon(props.icon)}</div>;
+}
 
 WeatherIcon.propTypes = {
-  icon: PropTypes.string
+  icon: PropTypes.string,
 };

@@ -11,13 +11,13 @@ const LAT_KEY = "lat";
 const LNG_KEY = "lng";
 
 export default function Main() {
-  const [{lat, lng, address}, setState] = useState({
+  const [{ lat, lng, address }, setState] = useState({
     lat: localStorage.getItem(LAT_KEY) || null,
     lng: localStorage.getItem(LNG_KEY) || null,
-    address: JSON.parse(localStorage.getItem(ADDRESS_KEY) || null) || ""
+    address: JSON.parse(localStorage.getItem(ADDRESS_KEY) || null) || "",
   });
 
-  const handleSearchSubmit = ({lat, lng}, address) => {
+  const handleSearchSubmit = ({ lat, lng }, address) => {
     localStorage.setItem(LAT_KEY, JSON.stringify(lat));
     localStorage.setItem(LNG_KEY, JSON.stringify(lng));
     localStorage.setItem(ADDRESS_KEY, JSON.stringify(address));
@@ -25,7 +25,7 @@ export default function Main() {
     setState({
       lat: String(lat),
       lng: String(lng),
-      address: address
+      address: address,
     });
   };
 

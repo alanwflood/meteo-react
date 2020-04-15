@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 // import Chart from "chart.js";
-import {format, fromUnixTime} from "date-fns"
+import { format, fromUnixTime } from "date-fns";
 import colors from "../../assets/stylesheets/colors.json";
-import {select, scaleBand, scaleLinear, max, axisBottom, axisLeft} from "d3";
+import { select, scaleBand, scaleLinear, max, axisBottom, axisLeft } from "d3";
 import { zip } from "lodash";
 
 function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
@@ -11,7 +11,7 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     value: Number(pair[0]),
     time: Number(pair[1]),
   }));
-  const fontColor = theme === "light" ? colors.gray : colors.white
+  const fontColor = theme === "light" ? colors.gray : colors.white;
   const svg = select(element);
   const margin = {
     top: 20,
@@ -25,29 +25,28 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var x = scaleBand().rangeRound([0, width]).padding(.2);
+  var x = scaleBand().rangeRound([0, width]).padding(0.2);
 
   var y = scaleLinear().rangeRound([height, 0]);
 
-  const maxValue = max(data, ({ value }) => value)
+  const maxValue = max(data, ({ value }) => value);
 
   x.domain(
     data.map(function (d) {
       return d.time;
     })
   );
-  y.domain([
-    0,
-    maxValue === 0 ? 5 : maxValue
-  ]);
+  y.domain([0, maxValue === 0 ? 5 : maxValue]);
 
   g.append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(axisBottom(x).tickFormat(t => format(fromUnixTime(t), "ha")))
-  .selectAll("text")
-    .attr("font-size", (width * 0.002) + "em")
+    .call(axisBottom(x).tickFormat((t) => format(fromUnixTime(t), "ha")))
+    .selectAll("text")
+    .attr("font-size", width * 0.002 + "em");
 
-  const yAxis = g.append("g").call(axisLeft(y).tickFormat(t => `${t}${unit}`))
+  const yAxis = g
+    .append("g")
+    .call(axisLeft(y).tickFormat((t) => `${t}${unit}`));
 
   // Eventually add additional text to chart
   // yAxis.append("text")
@@ -65,12 +64,12 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     .attr("class", "bar")
     .attr("x", ({ time }) => x(time))
     .attr("width", x.bandwidth())
-    .attr("y",  () => height)
+    .attr("y", () => height)
     .attr("fill", barColor)
     .attr("height", 0)
-      .transition()
-      .duration(750)
-      .delay((_d, i) => i * 150 )
+    .transition()
+    .duration(750)
+    .delay((_d, i) => i * 150)
     .attr("y", ({ value }) => y(value))
     .attr("height", (d) => height - y(d.value));
 }
@@ -83,16 +82,23 @@ class WeatherChart extends React.Component {
   }
 
   setupChart = () => {
-    const {xAxes, yAxes, barColor, theme, unit} = this.props
-    this.chart = SetupChart(this.myRef.current, xAxes, yAxes, barColor, theme, unit);
-  }
+    const { xAxes, yAxes, barColor, theme, unit } = this.props;
+    this.chart = SetupChart(
+      this.myRef.current,
+      xAxes,
+      yAxes,
+      barColor,
+      theme,
+      unit
+    );
+  };
 
   componentDidMount() {
-    this.setupChart()
+    this.setupChart();
   }
 
   componentDidUpdate(_prevProps, _prevState) {
-    this.setupChart()
+    this.setupChart();
   }
 
   componentWillUnmount() {

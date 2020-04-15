@@ -1,42 +1,43 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {format, fromUnixTime} from "date-fns";
-import {Collapse} from "react-collapse";
+import { format, fromUnixTime } from "date-fns";
+import { Collapse } from "react-collapse";
 
 import Details from "./details";
 import Icon from "./icon";
 import Timeline from "./timeline";
 
-function CardDate({date, displayName}) {
+function CardDate({ date, displayName }) {
   const displayDate = format(fromUnixTime(date), "do MMMM");
   return (
     <span>
       {displayName ? (
-          <>
-            {displayName}
-            < br />
-            <small>{displayDate}</small>
-          </>
-        ) : displayDate
-      }
+        <>
+          {displayName}
+          <br />
+          <small>{displayDate}</small>
+        </>
+      ) : (
+        displayDate
+      )}
     </span>
   );
-};
+}
 
 export default function WeatherCard({
   isOpen: initialOpenState,
   weatherData,
   date: unixDate,
-  theme
+  theme,
 }) {
-  const [isOpen, setIsOpen] = useState(initialOpenState)
+  const [isOpen, setIsOpen] = useState(initialOpenState);
   const date = fromUnixTime(unixDate);
 
   return (
     <div>
       <button
         className={`weather-button${isOpen ? " open" : ""}`}
-        onClick={() =>  setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(!isOpen)}
       >
         <div className="button-content">
           <Icon icon={weatherData.avgWeather.icon} />

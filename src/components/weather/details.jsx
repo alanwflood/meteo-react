@@ -13,7 +13,7 @@ export default function WeatherDetails({ weatherData, theme }) {
     ["Avg Temperature", weatherData.temps.avg],
     ["Avg Humidity", weatherData.humidity.avg],
     ["Avg Windspeed", weatherData.wind.avg],
-    ["Direction", weatherData.wind.direction]
+    ["Direction", weatherData.wind.direction],
   ];
 
   return (
@@ -25,7 +25,7 @@ export default function WeatherDetails({ weatherData, theme }) {
         </div>
         <table>
           <tbody>
-            {weatherTable.map(data => (
+            {weatherTable.map((data) => (
               <tr key={data[0]}>
                 <td>{data[0]}:</td>
                 <td>{data[1]}</td>
@@ -35,11 +35,17 @@ export default function WeatherDetails({ weatherData, theme }) {
         </table>
         <Tabs>
           <TabList className="weather-tabs">
-            {["Rainfall", "Temperature", "Windspeed", "Humidity"].map(data => (
-              <Tab className={`weather-tab ${data.toLowerCase()}`} selectedClassName="active" key={data}>
-                {data}
-              </Tab>
-            ))}
+            {["Rainfall", "Temperature", "Windspeed", "Humidity"].map(
+              (data) => (
+                <Tab
+                  className={`weather-tab ${data.toLowerCase()}`}
+                  selectedClassName="active"
+                  key={data}
+                >
+                  {data}
+                </Tab>
+              )
+            )}
           </TabList>
           <TabPanel>
             <Chart
@@ -85,8 +91,8 @@ export default function WeatherDetails({ weatherData, theme }) {
 
 WeatherDetails.propTypes = {
   weatherData: PropTypes.object.isRequired,
-  theme: PropTypes.string
+  theme: PropTypes.string,
 };
 WeatherDetails.defaultProps = {
-  theme: "light"
+  theme: "light",
 };

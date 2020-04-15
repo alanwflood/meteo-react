@@ -9,32 +9,33 @@ class Weather extends React.Component {
   state = {
     showLoader: false,
     theme: "light",
-    weatherData: {}
+    weatherData: {},
   };
 
   static propTypes = {
     lat: PropTypes.string.isRequired,
     lng: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired
-  }
+    address: PropTypes.string.isRequired,
+  };
 
   enableLoader() {
-    setTimeout(this.setState({showLoader: true}), 3000);
+    setTimeout(this.setState({ showLoader: true }), 3000);
   }
 
   fetchWeather() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     this.enableLoader();
     const api = WeatherAPI(this.props.lat, this.props.lng);
-    api.fetchFiveDayWeather(({data, times}) => {
-      this.setState({weatherData: data});
-      SetTheme(
-        { sunrise: times.sunrise, sunset: times.sunset },
-        (theme) => this.setState({theme})
-      );
-    }).then(() => {
-      this.setState({loading: false});
-    });
+    api
+      .fetchFiveDayWeather(({ data, times }) => {
+        this.setState({ weatherData: data });
+        SetTheme({ sunrise: times.sunrise, sunset: times.sunset }, (theme) =>
+          this.setState({ theme })
+        );
+      })
+      .then(() => {
+        this.setState({ loading: false });
+      });
   }
 
   componentDidMount() {
@@ -46,8 +47,8 @@ class Weather extends React.Component {
   }
 
   weatherCards = () => {
-    const {lat, lng} = this.props;
-    const {loading, weatherData, theme} = this.state;
+    const { lat, lng } = this.props;
+    const { loading, weatherData, theme } = this.state;
 
     if (loading) {
       // We delay showing the loader so the user doesn't
@@ -67,18 +68,13 @@ class Weather extends React.Component {
             isOpen={index === 0}
           />
         </ErrorBoundary>
-      )
-      );
+      ));
     }
   };
 
   render() {
-    const className = `weather-container ${this.state.theme}`
-    return (
-      <div className={className}>
-        {this.weatherCards()}
-      </div>
-    );
+    const className = `weather-container ${this.state.theme}`;
+    return <div className={className}>{this.weatherCards()}</div>;
   }
 }
 
