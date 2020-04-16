@@ -14,7 +14,17 @@ import Storm from "./icons/11.svg";
 import Snow from "./icons/13.svg";
 import Hail from "./icons/50.svg";
 
-function GetIcon(iconName) {
+/**
+ * @param {string} [iconName = ""]
+ * @return {ReactElement}
+ */
+function GetIcon(iconName = "") {
+  // We don't really care about icons where
+  // the sun/moon aren't visible so cut
+  // off their day/night value
+  const iconValue = iconName.replace(/(d|n)/g, "");
+  if (parseInt(iconName, 10) > 3) iconName = iconValue;
+
   switch (iconName) {
     case "01d":
       return <ClearDay />;
@@ -45,8 +55,11 @@ function GetIcon(iconName) {
   }
 }
 
-export default function WeatherIcon(props) {
-  return <div className="icon weather-icon">{GetIcon(props.icon)}</div>;
+/**
+ * @Component
+ */
+export default function WeatherIcon({ icon }) {
+  return <div className="icon weather-icon">{GetIcon(icon)}</div>;
 }
 
 WeatherIcon.propTypes = {
