@@ -7,7 +7,8 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 /**
- * Load Google Maps script into DOM and ensure it's loaded before rendering children elements
+ * Load Google Maps script into DOM and ensure it's loaded before rendering child elements
+ *
  * @component
  * @example
  * <LoadGoogleMaps>This text will only show when Google Maps is loaded!</LoadGoogleMaps>
@@ -24,7 +25,7 @@ function LoadGoogleMaps({ children }) {
         .querySelector(`body`)
         .insertAdjacentElement(`beforeend`, googleMapScriptElement);
     }
-  });
+  }, []);
   return gmapsLoaded && <>{children}</>;
 }
 LoadGoogleMaps.propTypes = {

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar component Renders correctly 1`] = `
+<div>
+  <form
+    class="search"
+  >
+    <div
+      class="search-bar"
+    >
+      <input
+        class="search-input"
+        placeholder="Search Places ..."
+      />
+      <div
+        class="search-dropdown"
+      />
+    </div>
+    <button
+      aria-label="Fetch weather at location"
+      type="submit"
+    >
+      <span>
+        Search
+      </span>
+      <test-file-stub />
+    </button>
+  </form>
+</div>
+`;

@@ -1,13 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import App from "../index";
-
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
-import Weather from "../../components/weather";
-
 jest.mock("../../components/weather");
 // Mock out places autocomplete
 jest.mock("react-places-autocomplete", () => {
@@ -23,6 +16,7 @@ jest.mock("react-places-autocomplete", () => {
     };
 
     render() {
+      // eslint-disable-next-line react/prop-types
       return <>{this.props.children(this.renderProps)}</>;
     }
   }
