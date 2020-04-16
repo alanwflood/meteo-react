@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Weather Component Renders when data returns from api 1`] = `
+<div>
+  <div />
+  <div />
+</div>
+`;
+
+exports[`Weather Component Shows a loader when loading 1`] = `
+<div>
+  <div
+    class="loader main-loader"
+  >
+    Loading
+  </div>
+</div>
+`;
+
+exports[`Weather Component Shows nothing when loading and showloader is false 1`] = `<div />`;

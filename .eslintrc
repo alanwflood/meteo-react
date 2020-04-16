@@ -4,7 +4,8 @@
     "standard-react",
     "prettier",
     "prettier/react",
-    "prettier/standard"
+    "prettier/standard",
+    "plugin:cypress/recommended"
   ],
   "parser": "babel-eslint",
   "env": {

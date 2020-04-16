@@ -1,4 +1,3 @@
-import WeatherConverter from "../weatherConversion";
 import WeatherApi from "../weatherApi";
 jest.mock("../weatherConversion");
 

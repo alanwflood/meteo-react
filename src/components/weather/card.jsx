@@ -82,7 +82,7 @@ export default function WeatherCard({
 
 WeatherCard.propTypes = {
   isOpen: PropTypes.bool,
-  date: PropTypes.number.isRequired,
+  date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   theme: PropTypes.string,
   weatherData: weatherDataPropType,
 };

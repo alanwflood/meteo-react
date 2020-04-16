@@ -30,6 +30,7 @@ describe("Main Layout", () => {
 
   it("after searching it calls localStorage setItem", async () => {
     window.google = {};
+    jest.useFakeTimers();
     const { container } = render(<App />);
     const button = container.querySelector("button");
     fireEvent.click(button);
@@ -37,6 +38,6 @@ describe("Main Layout", () => {
     await waitFor(() => {
       expect(window.localStorage.setItem).toHaveBeenCalledTimes(3);
       expect(container).toMatchSnapshot();
-    }, 0);
+    });
   });
 });

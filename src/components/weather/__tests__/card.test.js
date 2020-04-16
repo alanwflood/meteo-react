@@ -18,6 +18,7 @@ describe("Weather Card Component", () => {
     rain: { avg: "1.98mm", data: [0, 0, 0, 0] },
     humidity: { avg: "89.75%", data: [60, 70, 80, 90] },
   };
+
   it("Renders correctly", () => {
     const { container } = render(
       <Card isOpen weatherData={weatherData} date={date} theme="light" />
