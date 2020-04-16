@@ -3,14 +3,17 @@
 
 # Meteo
 
-Meteo is a simple, minimalist weather application built with Webpack, ES6, Stylus and React.
-The App provides a 5 day weather forecast using [Openweathermaps 5 day weather API](https://openweathermap.org/forecast5) and Google places to parse Latitude and Longitude for the places search.
+Meteo is a simple, minimalist weather application built with Webpack, Stylus and React.
 
-It's currently deployed on Netlify [here](https://distracted-wright-bee694.netlify.com/)
+The App provides a 5 day weather forecast using [Openweathermaps 5 day weather API](https://openweathermap.org/forecast5) and Google places to parse Latitude and Longitude for the location search.
+
+It's currently deployed on Netlify [here](https://distracted-wright-bee694.netlify.com/).
 
 ## Requirements
 
-- The api requests for weather forecasts requires an [Openweathermaps Api key](https://openweathermap.org)
+- The api requests for weather forecasts requires an [Openweathermaps Api key](https://openweathermap.org).
+
+- The location search requires a Google Api Key with Places, Geolocation and Geodecoder enabled.
 
 Check out the `.env.example` file to see what needs to be added.
 
@@ -30,25 +33,23 @@ Check out the `.env.example` file to see what needs to be added.
 
 - run `npm run start` to build the project and start a production server at http://localhost:5000
 
+## Testing
+
+- `npm run test` runs unit tests provided by [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+
+- `npm run test:integration` builds the application, starts a production server and runs integration tests provided by [Cypress](https://www.cypress.io/)
+
 ## Features
 
-- Search for 5 day weather forecast by location
+- Search for a 5 day weather forecast by location.
 
-- Theme changes based on sunrise / sunset times of chosen location
+- Theme changes based on sunrise and sunset times of chosen location.
 
-- Timelines in 3 hour intervals for each day and graphs showing humidity, rainfall, temperature and windspeed
+- Timelines in 3 hour intervals for each day and graphs showing humidity, rainfall, temperature and windspeed.
 
-- Location is stored via local storage and persists on page refresh
+- Location is stored via local storage and persists on page refresh.
 
 - Uses PWA features to cache for offline usage!
-
-## Todos
-
-- A graph for Snowfall that only appears if there is any.
-
-- Testing for components - While the app is centered around an api, tests for data manipulation and component snapshots need to be done.
-
-- Integrate with the HTML5 Geolocation API to get the current position of the user on initial load.
 
 ## License
 
