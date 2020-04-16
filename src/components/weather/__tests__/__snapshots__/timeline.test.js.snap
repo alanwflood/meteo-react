@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Weather Timeline Renders correctly 1`] = `
+<div>
+  <section>
+    <h3
+      style="text-align: center;"
+    >
+      Timeline
+    </h3>
+    <div
+      class="timeline"
+    >
+      <div
+        class="weather-entry"
+      >
+        <div
+          class="time"
+        >
+          1:00AM
+        </div>
+        <div
+          class="description"
+        >
+          <div
+            class="icon weather-icon"
+          >
+            <test-file-stub />
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather-entry"
+      >
+        <div
+          class="time"
+        >
+          1:00AM
+        </div>
+        <div
+          class="description"
+        >
+          <div
+            class="icon weather-icon"
+          >
+            <test-file-stub />
+          </div>
+        </div>
+      </div>
+      <div
+        class="weather-entry"
+      >
+        <div
+          class="time"
+        >
+          1:00AM
+        </div>
+        <div
+          class="description"
+        >
+          <div
+            class="icon weather-icon"
+          >
+            <test-file-stub />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;

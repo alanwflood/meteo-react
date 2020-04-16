@@ -19,16 +19,14 @@ function WeatherEntry({ date, popupContent, icon }) {
   const tooltipRef = useRef(null);
 
   // Ref has been attached so setup tooltip library
-  if (tooltipRef !== null) {
-    tippy.then((t) => {
-      t.default(tooltipRef.current, {
-        content: upperFirst(popupContent),
-        placement: "bottom",
-        animation: "fade",
-        arrow: true,
-      });
+  tippy.then((t) => {
+    t.default(tooltipRef.current, {
+      content: upperFirst(popupContent),
+      placement: "bottom",
+      animation: "fade",
+      arrow: true,
     });
-  }
+  });
 
   return (
     <div className="weather-entry">
@@ -41,7 +39,9 @@ function WeatherEntry({ date, popupContent, icon }) {
 }
 
 WeatherEntry.propTypes = {
+  // Unix Timestamp
   date: PropTypes.number,
+  // Content to show up in popup
   popupContent: PropTypes.string,
   icon: PropTypes.string,
 };

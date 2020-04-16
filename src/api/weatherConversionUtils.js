@@ -124,9 +124,9 @@ export function getDisplayName(date) {
   const tomorrow = getStartOfToday(1);
 
   if (date === today) {
-    return "today";
+    return "Today";
   } else if (date === tomorrow) {
-    return "tomorrow";
+    return "Tomorrow";
   } else {
     return null;
   }

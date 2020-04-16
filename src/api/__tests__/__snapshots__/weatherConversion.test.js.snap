@@ -75,7 +75,7 @@ Object {
         "overcast clouds",
         "overcast clouds",
       ],
-      "displayName": "today",
+      "displayName": "Today",
       "humidity": Object {
         "avg": "80.00%",
         "data": Array [
@@ -180,7 +180,7 @@ Object {
         "light rain",
         "light rain",
       ],
-      "displayName": "tomorrow",
+      "displayName": "Tomorrow",
       "humidity": Object {
         "avg": "83.88%",
         "data": Array [

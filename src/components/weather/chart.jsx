@@ -75,7 +75,7 @@ export default function WeatherChart({ barColor, theme, unit, xAxes, yAxes }) {
   const chartRef = useRef(null);
   useEffect(() => {
     SetupChart(chartRef.current, xAxes, yAxes, barColor, theme, unit);
-  });
+  }, []);
 
   return (
     <div className="weather-chart">

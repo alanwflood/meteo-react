@@ -1,35 +1,11 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import App from "../index";
+import mockPlacesAutocomplete from "../../../tests/reactPlacesAutocompleteMock";
+
 jest.mock("../../components/weather");
 // Mock out places autocomplete
-jest.mock("react-places-autocomplete", () => {
-  const React = require("react"); // eslint-disable-line
-  class PlacesAutocomplete extends React.Component {
-    renderProps = {
-      getInputProps: jest.fn(({ placeholder, className }) => ({
-        placeholder,
-        className,
-      })),
-      suggestions: [],
-      getSuggestionItemProps: jest.fn(),
-    };
-
-    render() {
-      // eslint-disable-next-line react/prop-types
-      return <>{this.props.children(this.renderProps)}</>;
-    }
-  }
-
-  return {
-    __esModule: true,
-    default: PlacesAutocomplete,
-    geocodeByAddress: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve("address")),
-    getLatLng: jest.fn().mockImplementation(() => ({ lat: 0, lng: 0 })),
-  };
-});
+jest.mock("react-places-autocomplete", () => mockPlacesAutocomplete);
 
 describe("Main Layout", () => {
   beforeEach(() => {

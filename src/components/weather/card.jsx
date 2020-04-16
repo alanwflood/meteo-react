@@ -6,9 +6,10 @@ import { Collapse } from "react-collapse";
 import Details from "./details";
 import Icon from "./icon";
 import Timeline from "./timeline";
+import { weatherData as weatherDataPropType } from "../../api/weatherDataPropTypes";
 
 function CardDate({ date, displayName }) {
-  const displayDate = format(fromUnixTime(date), "do MMMM");
+  const displayDate = format(date, "do MMMM");
   return (
     <span>
       {displayName ? (
@@ -24,6 +25,11 @@ function CardDate({ date, displayName }) {
   );
 }
 
+CardDate.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
+  displayName: PropTypes.string,
+};
+
 export default function WeatherCard({
   isOpen: initialOpenState,
   weatherData,
@@ -32,7 +38,6 @@ export default function WeatherCard({
 }) {
   const [isOpen, setIsOpen] = useState(initialOpenState);
   const date = fromUnixTime(unixDate);
-
   return (
     <div>
       <button
@@ -75,69 +80,14 @@ export default function WeatherCard({
   );
 }
 
-// class WeatherCard extends React.Component {
-//   constructor(props) {
-//     super(props);
-//
-//     this.state = {
-//       isOpened: this.props.isOpen,
-//       // Seperation of concerns
-//       detailsData: convertWeatherData(this.props.weatherData),
-//       timelineData: this.props.weatherData
-//     };
-//   }
-//
-//   render() {
-//     const {detailsData, timelineData} = this.state;
-//     const date = fromUnixTime(this.props.date);
-//     return (
-//       <div>
-//         <button
-//           className={`weather-button${this.state.isOpened ? " open" : ""}`}
-//           onClick={() => this.setState({isOpened: !this.state.isOpened})}
-//         >
-//           <div className="button-content">
-//             <Icon icon={detailsData.avgWeather.icon} />
-//             <h2>
-//               {format(date, "do MMMM")}
-//               <br />
-//               <small>{format(date, "EEEE")}</small>
-//             </h2>
-//             <div className="details">
-//               <table>
-//                 <tbody>
-//                   <tr>
-//                     <td>Min</td>
-//                     <td>{detailsData.temps.min}</td>
-//                   </tr>
-//                   <tr>
-//                     <td>Max</td>
-//                     <td>{detailsData.temps.max}</td>
-//                   </tr>
-//                 </tbody>
-//               </table>
-//             </div>
-//           </div>
-//         </button>
-//         <Collapse isOpened={this.state.isOpened}>
-//           <div className="weather-card">
-//             <section className="header">{this.cardDate()}</section>
-//             <Details weatherData={detailsData} theme={this.props.theme} />
-//             <Timeline weatherData={timelineData} />
-//           </div>
-//         </Collapse>
-//       </div>
-//     );
-//   }
-// }
-//
-// WeatherCard.propTypes = {
-//   isOpen: PropTypes.bool,
-//   date: PropTypes.number.isRequired,
-//   weatherData: PropTypes.arrayOf(PropTypes.object).isRequired
-// };
-//
-// // Specifies the default values for props:
-// WeatherCard.defaultProps = {
-//   isOpen: false
-// };
+WeatherCard.propTypes = {
+  isOpen: PropTypes.bool,
+  date: PropTypes.number.isRequired,
+  theme: PropTypes.string,
+  weatherData: weatherDataPropType,
+};
+
+WeatherCard.defaultProps = {
+  isOpen: false,
+  theme: "light",
+};

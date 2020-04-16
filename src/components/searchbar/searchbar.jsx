@@ -7,17 +7,16 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 /**
- * Load Google Maps script into DOM and ensure it's loaded before rendering child elements
- *
+ * Load Google Maps script into DOM and ensure it's loaded before rendering children elements
  * @component
  * @example
  * <LoadGoogleMaps>This text will only show when Google Maps is loaded!</LoadGoogleMaps>
  */
 function LoadGoogleMaps({ children }) {
-  const [gmapsLoaded, setGmapsLoaded] = useState(Boolean(window.google));
+  const [gmapsLoaded, setGmapsLoaded] = useState(window.google !== undefined);
   useEffect(() => {
     if (!gmapsLoaded) {
-      window.initMap = setGmapsLoaded(true);
+      window.initMap = () => setGmapsLoaded(true);
       const googleMapScriptElement = document.createElement(`script`);
       const key = process.env.GOOGLE_API_KEY;
       googleMapScriptElement.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
