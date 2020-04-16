@@ -13,8 +13,18 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+Cypress.Commands.add("unregisterServiceWorkers", () => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) =>
+        registrations.forEach((reg) => reg.unregister())
+      );
+  }
+});
+
+Cypress.on("window:before:load", (win) => {
+  win.fetch = null;
+});

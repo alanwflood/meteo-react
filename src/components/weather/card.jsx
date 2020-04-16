@@ -8,6 +8,14 @@ import Icon from "./icon";
 import Timeline from "./timeline";
 import { weatherData as weatherDataPropType } from "../../api/weatherDataPropTypes";
 
+/**
+ * @component
+ * @example
+ * <CardDate
+ *   date={new Date()}
+ *   displayName={"A Cool Display Name"}
+ * />
+ */
 function CardDate({ date, displayName }) {
   const displayDate = format(date, "do MMMM");
   return (
@@ -26,16 +34,37 @@ function CardDate({ date, displayName }) {
 }
 
 CardDate.propTypes = {
+  // The Date shown
   date: PropTypes.instanceOf(Date).isRequired,
+  // Changes the style of the component
+  // when this is provided
   displayName: PropTypes.string,
 };
 
+/**
+ * @component
+ * @example
+ * <WeatherCard
+ *   isOpen={false}
+ *   weatherData={weatherDataObject}
+ *   date={123456}
+ *   theme={"light"}
+ * />
+ */
 export default function WeatherCard({
   isOpen: initialOpenState,
   weatherData,
   date: unixDate,
   theme,
 }) {
+  const {
+    avgWeather,
+    temps,
+    displayName,
+    times,
+    descriptions,
+    icons,
+  } = weatherData;
   const [isOpen, setIsOpen] = useState(initialOpenState);
   const date = fromUnixTime(unixDate);
   return (
@@ -45,7 +74,7 @@ export default function WeatherCard({
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="button-content">
-          <Icon icon={weatherData.avgWeather.icon} />
+          <Icon icon={avgWeather.icon} />
           <h2>
             {format(date, "do MMMM")}
             <br />
@@ -56,11 +85,11 @@ export default function WeatherCard({
               <tbody>
                 <tr>
                   <td>Min</td>
-                  <td>{weatherData.temps.min}</td>
+                  <td>{temps.min}</td>
                 </tr>
                 <tr>
                   <td>Max</td>
-                  <td>{weatherData.temps.max}</td>
+                  <td>{temps.max}</td>
                 </tr>
               </tbody>
             </table>
@@ -70,10 +99,10 @@ export default function WeatherCard({
       <Collapse isOpened={isOpen}>
         <div className="weather-card">
           <section className="header">
-            <CardDate date={date} displayName={weatherData.displayName} />
+            <CardDate date={date} displayName={displayName} />
           </section>
           <Details weatherData={weatherData} theme={theme} />
-          <Timeline weatherData={weatherData} />
+          <Timeline times={times} descriptions={descriptions} icons={icons} />
         </div>
       </Collapse>
     </div>
@@ -81,9 +110,13 @@ export default function WeatherCard({
 }
 
 WeatherCard.propTypes = {
+  // Is the detail view initially open
   isOpen: PropTypes.bool,
+  // A unix time stamp for the date to show
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  // Passed through to various child components for styling
   theme: PropTypes.string,
+  // Data to show in the Card
   weatherData: weatherDataPropType,
 };
 

@@ -46,20 +46,24 @@ WeatherEntry.propTypes = {
   icon: PropTypes.string,
 };
 
-export default function WeatherTimeline({ weatherData }) {
+/**
+ * Returns a timeline showing weather data for
+ * each time inside the weatherData object
+ *
+ * @Component
+ */
+export default function WeatherTimeline({ times, descriptions, icons }) {
   return (
     <section>
       <h3 style={{ textAlign: "center" }}>Timeline</h3>
       <div className="timeline">
-        {weatherData.times.map((time, index) => {
-          const icon = weatherData.icons[index];
-          const content = weatherData.descriptions[index];
+        {times.map((time, index) => {
           return (
             <WeatherEntry
               key={time}
               date={time}
-              popupContent={content}
-              icon={icon}
+              popupContent={descriptions[index]}
+              icon={icons[index]}
             />
           );
         })}
@@ -69,5 +73,7 @@ export default function WeatherTimeline({ weatherData }) {
 }
 
 WeatherTimeline.propTypes = {
-  weatherData: PropTypes.object.isRequired,
+  times: PropTypes.arrayOf(PropTypes.number).isRequired,
+  descriptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  icons: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

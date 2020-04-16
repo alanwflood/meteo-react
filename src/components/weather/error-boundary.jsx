@@ -8,11 +8,17 @@ export default class ErrorBoundary extends React.Component {
       hasError: false,
     };
   }
+
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   componentDidCatch() {
     this.setState({
       hasError: true,
     });
   }
+
   render() {
     if (this.state.hasError) {
       return <div>An error occured getting weather for this day!</div>;
@@ -20,7 +26,3 @@ export default class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired,
-};

@@ -5,6 +5,7 @@ export const weatherDetail = shape({
   data: arrayOf(number.isRequired).isRequired,
 });
 
+// PropType of converted weather data
 export const weatherData = shape({
   avgWeather: shape({
     description: string.isRequired,

@@ -1,5 +1,9 @@
 describe("Initial Page", () => {
+  before(() => {});
+
   beforeEach(() => {
+    cy.unregisterServiceWorkers();
+    cy.clearLocalStorage();
     cy.visit("http://localhost:5000");
   });
 
@@ -20,22 +24,26 @@ describe("Initial Page", () => {
   it("Clicking a place takes you to the weather page", () => {
     cy.get("input").type("Dublin, Ireland");
     cy.get(".search-dropdown").contains("Dublin, Ireland").click();
-    cy.contains("Today");
+    cy.contains(/(Today|Tomorrow)/g);
     cy.contains("Min Temperature");
     cy.contains("Max Temperature");
     cy.contains("Avg Temperature");
+    cy.contains("Rainfall");
+    cy.contains("Temperature");
+    cy.contains("Windspeed");
+    cy.contains("Humidity");
   });
 
   it("Reloading shows the same place", () => {
     cy.get("input").type("Dublin, Ireland");
     cy.get(".search-dropdown").contains("Dublin, Ireland").click();
-    cy.contains("Today");
+    cy.contains(/(Today|Tomorrow)/g);
     cy.contains("Min Temperature");
     cy.contains("Max Temperature");
     cy.contains("Avg Temperature");
 
     cy.reload();
-    cy.contains("Today");
+    cy.contains(/(Today|Tomorrow)/g);
     cy.contains("Min Temperature");
     cy.contains("Max Temperature");
     cy.contains("Avg Temperature");

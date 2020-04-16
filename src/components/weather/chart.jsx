@@ -5,7 +5,25 @@ import { format, fromUnixTime } from "date-fns";
 import { select, scaleBand, scaleLinear, max, axisBottom, axisLeft } from "d3";
 import { zip } from "lodash";
 
-function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
+/**
+ * Creates a bar chart using provided data
+ *
+ * @param {HTMLElement} element - Element to attach the chart to
+ * @param {number[]} xAxisData
+ * @param {number[]} yAxisData
+ * @param {string} barColor - Color used for the bars in the chart
+ * @param {string} unit - Concatenated to the yAxis data set
+ * @returns {undefined}
+ * @example
+ * SetupChart(
+ *   document.querySelector("svg"),
+ *   [1, 2, 3, 4],
+ *   [5, 6, 7, 8],
+ *   #424242,
+ *   "mm"
+ * )
+ */
+function SetupChart(element, xAxisData, yAxisData, barColor, unit) {
   const data = zip(xAxisData, yAxisData).map((pair) => ({
     value: Number(pair[0]),
     time: Number(pair[1]),
@@ -35,6 +53,7 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
       return d.time;
     })
   );
+  // If all the data is zero, just show 5 ticks on the yAxis
   y.domain([0, maxValue === 0 ? 5 : maxValue]);
 
   g.append("g")
@@ -44,15 +63,6 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     .attr("font-size", width * 0.002 + "em");
 
   g.append("g").call(axisLeft(y).tickFormat((t) => `${t}${unit}`));
-
-  // Eventually add additional text to chart
-  // yAxis.append("text")
-  //   .attr("fill", fontColor)
-  //   .attr("transform", "rotate(-90)")
-  //   .attr("y", 6)
-  //   .attr("dy", "0.71em")
-  //   .attr("text-anchor", "end")
-  //   .text("Unit Goes Here")
 
   g.selectAll(".bar")
     .data(data)
@@ -71,10 +81,22 @@ function SetupChart(element, xAxisData, yAxisData, barColor, theme, unit) {
     .attr("height", (d) => height - y(d.value));
 }
 
-export default function WeatherChart({ barColor, theme, unit, xAxes, yAxes }) {
+/**
+ * Returns a Component featuring a Bar Chart created using provided data
+ *
+ * @component
+ * @example
+ * <WeatherChart
+ *   xAxis={[1, 2, 3, 4]}
+ *   yAxis={[5, 6, 7, 8]}
+ *   barColor="#424242""
+ *   unit="mm"
+ * />
+ */
+export default function WeatherChart({ barColor, unit, xAxis, yAxis }) {
   const chartRef = useRef(null);
   useEffect(() => {
-    SetupChart(chartRef.current, xAxes, yAxes, barColor, theme, unit);
+    SetupChart(chartRef.current, xAxis, yAxis, barColor, unit);
   }, []);
 
   return (
@@ -85,17 +107,17 @@ export default function WeatherChart({ barColor, theme, unit, xAxes, yAxes }) {
 }
 
 WeatherChart.propTypes = {
+  //  Color used for the bars in the chart
   barColor: PropTypes.string,
-  theme: PropTypes.string,
+  // Concatenated to the yAxis data set
   unit: PropTypes.string,
-  xAxes: PropTypes.arrayOf(PropTypes.number).isRequired,
-  yAxes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  //  xAxisData
+  xAxis: PropTypes.arrayOf(PropTypes.number).isRequired,
+  //  yAxisData
+  yAxis: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 WeatherChart.defaultProps = {
-  barBorderColor: "gray",
   barColor: "gray",
-  label: "",
-  theme: "light",
   unit: "",
 };

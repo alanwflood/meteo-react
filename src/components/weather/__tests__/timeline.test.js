@@ -6,7 +6,7 @@ import { getUnixTime, addHours } from "date-fns";
 describe("Weather Timeline", () => {
   // 1pm @ 27th September 2010
   const date = new Date(2010, 8, 27, 13, 0, 0);
-  const mockWeatherData = {
+  const mockProps = {
     times: [
       getUnixTime(date),
       getUnixTime(addHours(date, 3)),
@@ -17,16 +17,12 @@ describe("Weather Timeline", () => {
   };
 
   it("Renders correctly", () => {
-    const { container } = render(
-      <WeatherTimeline weatherData={mockWeatherData} />
-    );
+    const { container } = render(<WeatherTimeline {...mockProps} />);
     expect(container).toMatchSnapshot();
   });
 
   it("Shows correct times in timeline", () => {
-    const { getByText } = render(
-      <WeatherTimeline weatherData={mockWeatherData} />
-    );
+    const { getByText } = render(<WeatherTimeline {...mockProps} />);
     expect(getByText("1:00PM")).toBeTruthy();
     expect(getByText("4:00PM")).toBeTruthy();
     expect(getByText("7:00PM")).toBeTruthy();
