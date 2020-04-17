@@ -20,6 +20,20 @@
     <!-- [if lte IE 9]>
          <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif] -->
+    <div id="no-js" style="text-align: center;">
+      <h2>
+        It seem's you've disabled javascript or your browser won't run a script
+        featured on this site.
+      </h2>
+      <h3>
+        Either permit the script, or try another browser as javascript is
+        required to run this application.
+      </h3>
+    </div>
     <div id="app" />
+    <script>
+      var element = document.getElementById("no-js");
+      element.parentNode.removeChild(element);
+    </script>
   </body>
 </html>
