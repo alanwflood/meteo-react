@@ -1,6 +1,12 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2640a25a-d2da-411a-8ee4-8db701b0cb2e/deploy-status)](https://app.netlify.com/sites/distracted-wright-bee694/deploys)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
+![Lighthouse pwa](test_results/lighthouse_pwa.svg)
+![Lighthouse seo](test_results/lighthouse_seo.svg)
+![Lighthouse performance](test_results/lighthouse_performance.svg)
+![Lighthouse accessibility](test_results/lighthouse_accessibility.svg)
+![Lighthouse best practices](test_results/lighthouse_best-practices.svg)
+
 # Meteo
 
 Meteo is a simple, minimalist weather application built with Webpack, Stylus and React.
