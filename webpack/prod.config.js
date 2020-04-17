@@ -38,7 +38,7 @@ module.exports = merge(baseConfig, {
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { from: "src/manifest.webmanifest" },
-      { from: "src/assets/images", to: "images" },
+      { from: "src/assets/favicons" },
     ]),
     new CompressionPlugin({
       filename: "[path].gz[query]",
