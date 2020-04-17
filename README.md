@@ -21,7 +21,7 @@ It's currently deployed on Netlify [here](https://distracted-wright-bee694.netli
 
 - The location search requires a Google Api Key with Places, Geolocation and Geodecoder enabled.
 
-The `.env` file is currently checked into the repo to aid whoever is reviewing this code 👀, in a realworld application you would not do this!
+Check out the `.env.example` file to see what needs to be added.
 
 ## Installation
 
