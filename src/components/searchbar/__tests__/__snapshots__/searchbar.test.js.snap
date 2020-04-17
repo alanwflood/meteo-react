@@ -9,6 +9,7 @@ exports[`SearchBar component Renders correctly 1`] = `
       class="search-bar"
     >
       <input
+        aria-labelledby="searchButton"
         class="search-input"
         placeholder="Search Places ..."
       />
@@ -17,7 +18,8 @@ exports[`SearchBar component Renders correctly 1`] = `
       />
     </div>
     <button
-      aria-label="Fetch weather at location"
+      aria-label="Search for a location to Fetch weather for"
+      id="searchButton"
       type="submit"
     >
       <span>

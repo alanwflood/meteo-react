@@ -82,6 +82,7 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
           }) => (
             <div className="search-bar">
               <input
+                aria-labelledby="searchButton"
                 {...getInputProps({
                   placeholder: "Search Places ...",
                   className: "search-input",
@@ -107,7 +108,11 @@ export default function SearchBar({ onSubmit, address: initialAddress }) {
           )}
         </PlacesAutocomplete>
 
-        <button type="submit" aria-label="Fetch weather at location">
+        <button
+          id="searchButton"
+          type="submit"
+          aria-label="Search for a location to Fetch weather for"
+        >
           <span>Search</span>
           <NavIcon />
         </button>
