@@ -1,7 +1,7 @@
 {
   "version": "0.0.1",
-  "name": "meteo",
-  "description": "An app that shows the 5 day forecast for a location",
+  "name": "Meteo",
+  "description": "Your five day weather forecast at a glance",
   "icons": {
     "60": "/assets/firefox_app_60x60.png",
     "128": "/assets/firefox_app_128x128.png",

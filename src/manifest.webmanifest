@@ -2,6 +2,8 @@
   "name": "Meteo",
   "short_name": "Meteo",
   "start_url": ".",
+  "orientation": "any",
+  "dir": "auto",
   "lang": "en",
   "display": "standalone",
   "background_color": "#fef6e4",

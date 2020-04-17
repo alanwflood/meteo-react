@@ -1,14 +1,15 @@
 {
-  "name": "meteo",
-  "short_name": "meteo",
-  "description": "An app that shows the 5 day forecast for a location",
-  "dir": "auto",
-  "lang": "en-US",
-  "display": "standalone",
+  "name": "Meteo",
+  "short_name": "Meteo",
+  "start_url": ".",
   "orientation": "any",
-  "start_url": "/?homescreen=1",
+  "dir": "auto",
+  "lang": "en",
+  "display": "standalone",
   "background_color": "#fef6e4",
-  "theme_color": "#333",
+  "theme_color": "#fef6e4",
+  "categories": ["lifestyle", "weather"],
+  "description": "Your five day weather forecast at a glance",
   "icons": [
     {
       "src": "/assets/android-chrome-36x36.png",
