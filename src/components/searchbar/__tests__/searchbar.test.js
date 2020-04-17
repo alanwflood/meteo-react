@@ -1,44 +1,38 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import SearchBar from "../searchbar";
-
-// Mock out places autocomplete
-jest.mock("react-places-autocomplete", () => {
-  const React = require("react"); // eslint-disable-line
-  class PlacesAutocomplete extends React.Component {
-    renderProps = {
-      getInputProps: jest.fn(({ placeholder, className }) => ({
-        placeholder,
-        className,
-      })),
-      suggestions: [],
-      getSuggestionItemProps: jest.fn(),
-    };
-
-    render() {
-      // eslint-disable-next-line react/prop-types
-      return <>{this.props.children(this.renderProps)}</>;
-    }
-  }
-
-  return {
-    __esModule: true,
-    default: PlacesAutocomplete,
-    geocodeByAddress: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve("address")),
-    getLatLng: jest.fn().mockImplementation(() => ({ lat: 0, lng: 0 })),
-  };
-});
+jest.mock(
+  "@googlemaps/js-api-loader",
+  () =>
+    require.requireActual("../../../../tests/googleMapsApiLoaderMock").default
+);
+jest.mock(
+  "react-places-autocomplete",
+  () =>
+    require.requireActual("../../../../tests/reactPlacesAutocompleteMock")
+      .default
+);
 
 describe("SearchBar component", () => {
-  it("Renders correctly", () => {
+  const onSubmit = jest.fn();
+  const address = "Dublin, Ireland";
+
+  beforeEach(() => {
     window.google = {};
-    const onSubmit = jest.fn();
-    const address = "Dublin, Ireland";
+  });
+
+  it("Renders correctly", () => {
     const { container } = render(
       <SearchBar onSubmit={onSubmit} address={address} />
     );
     expect(container).toMatchSnapshot();
+  });
+
+  it("Loads Google Maps Api on mount", async () => {
+    window.google = undefined;
+    render(<SearchBar onSubmit={onSubmit} address={address} />);
+    await waitFor(() => {
+      expect(window.google).toBe("Google Maps Loaded");
+    });
   });
 });

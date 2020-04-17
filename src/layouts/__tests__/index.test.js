@@ -1,14 +1,21 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import App from "../index";
-import mockPlacesAutocomplete from "../../../tests/reactPlacesAutocompleteMock";
 
-jest.mock("../../components/weather");
-// Mock out places autocomplete
-jest.mock("react-places-autocomplete", () => mockPlacesAutocomplete);
+jest.mock("../../components/weather", () => () => <div />);
+jest.mock(
+  "@googlemaps/js-api-loader",
+  () => require.requireActual("../../../tests/googleMapsApiLoaderMock").default
+);
+jest.mock(
+  "react-places-autocomplete",
+  () =>
+    require.requireActual("../../../tests/reactPlacesAutocompleteMock").default
+);
 
 describe("Main Layout", () => {
   beforeEach(() => {
+    window.google = {};
     Object.defineProperty(window, "localStorage", {
       value: {
         getItem: jest.fn(() => null),
@@ -23,13 +30,12 @@ describe("Main Layout", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("calls localStorage getItem 3 times on render", () => {
+  it("calls localStorage getItem 3 times on render", async () => {
     render(<App />);
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(3);
   });
 
   it("after searching it calls localStorage setItem", async () => {
-    window.google = {};
     jest.useFakeTimers();
     const { container } = render(<App />);
     const button = container.querySelector("button");

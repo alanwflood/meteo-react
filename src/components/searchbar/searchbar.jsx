@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import NavIcon from "../../assets/arrow.svg";
+import { Loader } from "@googlemaps/js-api-loader";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -14,17 +15,24 @@ import PlacesAutocomplete, {
  */
 function LoadGoogleMaps({ children }) {
   const [gmapsLoaded, setGmapsLoaded] = useState(window.google !== undefined);
+  const loader = new Loader({
+    apiKey: process.env.GOOGLE_API_KEY,
+    version: "weekly",
+    libraries: ["places"],
+  });
+
   useEffect(() => {
     if (!gmapsLoaded) {
-      window.initMap = () => setGmapsLoaded(true);
-      const googleMapScriptElement = document.createElement(`script`);
-      const key = process.env.GOOGLE_API_KEY;
-      googleMapScriptElement.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
-      document
-        .querySelector(`body`)
-        .insertAdjacentElement(`beforeend`, googleMapScriptElement);
+      loader
+        .load()
+        .then(() => {
+          setGmapsLoaded(true);
+        })
+        .catch((e) => {
+          throw Error(e);
+        });
     }
-  }, []);
+  }, [gmapsLoaded]);
   return gmapsLoaded && <>{children}</>;
 }
 LoadGoogleMaps.propTypes = {
