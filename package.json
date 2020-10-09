@@ -74,7 +74,7 @@
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.13.1",
     "start-server-and-test": "^1.11.0",
-    "style-loader": "^1.1.4",
+    "style-loader": "^2.0.0",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "terser-webpack-plugin": "^2.3.5",
